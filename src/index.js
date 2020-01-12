@@ -12,6 +12,7 @@ import store from './store/reducers';
 import firebase from './config/firebase';
 
 // config means to use firestore users collection in auth firebase
+// userProfile: 'users'  => indicates the collection name of the firestore
 const rrfProps = {
 	firebase,
 	config: { userProfile: 'users', useFirestoreForProfile: true },

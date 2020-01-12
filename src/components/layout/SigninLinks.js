@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signOut } from '../../store/actions/authActions';
 
-const SigninLinks = () => {
+const SigninLinks = props => {
 	const dispatch = useDispatch();
 	return (
 		<ul className="right">
@@ -17,7 +17,7 @@ const SigninLinks = () => {
 			</li>
 			<li>
 				<NavLink to="/" className="btn btn-floating pink lighten-1">
-					TG
+					{props.profile.initials}
 				</NavLink>
 			</li>
 		</ul>

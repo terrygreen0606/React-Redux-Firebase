@@ -59,5 +59,11 @@ export const signOut = () => (dispatch, getState, { getFirebase }) => {
 			dispatch({
 				type: 'SIGNOUT_SUCCESS'
 			});
+		})
+		.catch(err => {
+			dispatch({
+				type: 'SIGNOUT_ERROR',
+				payload: err
+			});
 		});
 };

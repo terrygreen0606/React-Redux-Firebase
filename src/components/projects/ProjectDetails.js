@@ -1,12 +1,11 @@
 import React from 'react';
+import moment from 'moment';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
 
 const ProjectDetails = props => {
 	// props automatically comes from react router in app.js
 
-	useFirestoreConnect('projects');
 	const id = props.match.params.id;
 	const projects = useSelector(state => state.firestore.data.projects);
 	const project = projects ? projects[id] : null;
@@ -27,7 +26,11 @@ const ProjectDetails = props => {
 							Posted by {project.authorFirstName}{' '}
 							{project.authorLastName}
 						</div>
-						<div>12th of Jan, 2020</div>
+						<div>
+							{moment(project.createdAt.toDate()).format(
+								'MMMM Do, YYYY, h:mm:ss a'
+							)}
+						</div>
 					</div>
 				</div>
 			</div>

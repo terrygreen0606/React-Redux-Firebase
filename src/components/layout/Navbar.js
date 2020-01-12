@@ -8,12 +8,12 @@ import SignoutLinks from './SignoutLinks';
 const Navbar = () => {
 	const auth = useSelector(state => state.firebase.auth);
 	const profile = useSelector(state => state.firebase.profile);
-	// console.log(auth);
 	const links = auth.uid ? (
 		<SigninLinks profile={profile} />
 	) : (
 		<SignoutLinks />
 	);
+
 	return (
 		<nav className="nav-wrapper grey darken-3">
 			<div className="container">

@@ -56,9 +56,8 @@ export const signOut = () => (dispatch, getState, { getFirebase }) => {
 		.auth()
 		.signOut()
 		.then(() => {
-			dispatch({
-				type: 'SIGNOUT_SUCCESS'
-			});
+			// This is because of permission error after loggin out
+			window.location.reload();
 		})
 		.catch(err => {
 			dispatch({

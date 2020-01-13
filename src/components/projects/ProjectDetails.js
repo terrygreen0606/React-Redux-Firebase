@@ -10,6 +10,7 @@ const ProjectDetails = props => {
 	const projects = useSelector(state => state.firestore.data.projects);
 	const project = projects ? projects[id] : null;
 
+	// if not logged in, redirect to sign in page.
 	const auth = useSelector(state => state.firebase.auth);
 	if (!auth.uid) return <Redirect to="/signin" />;
 

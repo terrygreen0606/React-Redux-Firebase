@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import Notifications from './Notifications';
 import ProjectList from '../projects/ProjectList';
+import VerifyEmail from '../auth/VerifyEmail';
 
 const Dashboard = () => {
 	useFirestoreConnect([
@@ -14,15 +15,17 @@ const Dashboard = () => {
 		state => state.firestore.ordered.notifications
 	);
 	const auth = useSelector(state => state.firebase.auth);
+	const emailVerified = useSelector(
+		state => state.firebase.auth.emailVerified
+	);
 
 	if (!auth.uid) return <Redirect to="/signin" />;
+	const links = emailVerified ? <ProjectList /> : <VerifyEmail />;
 
 	return (
 		<div className="dashboard container">
 			<div className="row">
-				<div className="col s12 m6">
-					<ProjectList />
-				</div>
+				<div className="col s12 m6">{links}</div>
 				<div className="col s12 m5 offset-m1">
 					<Notifications notifications={notifications} />
 				</div>

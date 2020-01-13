@@ -34,6 +34,14 @@ const authReducer = (state = initialState, action) => {
 			console.log('login success');
 			return { ...state, authError: null };
 
+		case 'GOOGLE_SIGNIN_SUCCESS':
+			console.log('GOOGLE_SIGNIN_SUCCESS');
+			return state;
+
+		case 'GOOGLE_SIGNIN_ERROR':
+			console.log('GOOGLE_SIGNIN_ERROR');
+			return state;
+
 		case 'SIGNOUT_ERROR':
 			console.log('signout error');
 			return {

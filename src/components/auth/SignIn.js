@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn } from '../../store/actions/authActions';
+import { signIn, googleSignIn } from '../../store/actions/authActions';
 
 const SignIn = props => {
 	const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const SignIn = props => {
 
 	return (
 		<div className="container">
-			<form onSubmit={handleSubmit} className="white">
+			<form onSubmit={handleSubmit}>
 				<h5 className="grey-text text-darken-3">Log In</h5>
 				<div className="input-field">
 					<label htmlFor="email">Email</label>
@@ -48,6 +48,12 @@ const SignIn = props => {
 					</div>
 				</div>
 			</form>
+			<button
+				onClick={() => dispatch(googleSignIn())}
+				className="btn pink lighten-1 z-depth-0"
+			>
+				Log in with Google
+			</button>
 		</div>
 	);
 };

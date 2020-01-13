@@ -59,6 +59,33 @@ export const signIn = credentials => (dispatch, getState, { getFirebase }) => {
 		});
 };
 
+export const googleSignIn = () => async (
+	dispatch,
+	getState,
+	{ getFirebase, getFirestore }
+) => {
+	const firebase = getFirebase();
+	const firestore = getFirestore();
+	const provider = new firebase.auth.GoogleAuthProvider();
+	try {
+		const res = await firebase.auth().signInWithPopup(provider);
+		await firestore
+			.collection('users')
+			.doc(res.user.uid)
+			.set({
+				firstName: res.additionalUserInfo.profile.given_name,
+				lastName: res.additionalUserInfo.profile.family_name,
+				initials:
+					res.additionalUserInfo.profile.given_name[0] +
+					res.additionalUserInfo.profile.family_name[0]
+			});
+
+		dispatch({ type: 'GOOGLE_SIGNIN_SUCCESS' });
+	} catch (err) {
+		dispatch({ type: 'GOOGLE_SIGNIN_ERROR' });
+	}
+};
+
 export const signOut = () => (dispatch, getState, { getFirebase }) => {
 	const firebase = getFirebase();
 	firebase

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signOut } from '../../store/actions/authActions';
@@ -6,9 +6,15 @@ import { signOut } from '../../store/actions/authActions';
 const SigninLinks = props => {
 	const dispatch = useDispatch();
 	return (
-		<ul className="right">
+		<Fragment>
+			<li>
+				<NavLink to="/projects">Projects</NavLink>
+			</li>
 			<li>
 				<NavLink to="/create">New Project</NavLink>
+			</li>
+			<li>
+				<NavLink to="/users">Users</NavLink>
 			</li>
 			<li>
 				<NavLink to="/" onClick={() => dispatch(signOut())}>
@@ -20,7 +26,7 @@ const SigninLinks = props => {
 					{props.profile.initials}
 				</NavLink>
 			</li>
-		</ul>
+		</Fragment>
 	);
 };
 

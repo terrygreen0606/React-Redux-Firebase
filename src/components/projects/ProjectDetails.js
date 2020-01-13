@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import firebase from '../../config/firebase';
 
 const ProjectDetails = props => {
 	// props automatically comes from react router in app.js
@@ -11,8 +12,8 @@ const ProjectDetails = props => {
 	const project = projects ? projects[id] : null;
 
 	// if not logged in, redirect to sign in page.
-	const auth = useSelector(state => state.firebase.auth);
-	if (!auth.uid) return <Redirect to="/signin" />;
+	const user = firebase.auth().currentUser;
+	if (!user) return <Redirect to="/signin" />;
 
 	if (project) {
 		return (

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const SignoutLinks = () => {
 	return (
-		<ul className="right">
+		<Fragment>
 			<li>
 				<NavLink to="/signup">Sign Up</NavLink>
 			</li>
 			<li>
 				<NavLink to="/signin">Log In</NavLink>
 			</li>
-		</ul>
+		</Fragment>
 	);
 };
 

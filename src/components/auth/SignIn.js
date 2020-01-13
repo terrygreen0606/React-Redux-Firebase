@@ -21,7 +21,7 @@ const SignIn = props => {
 	};
 
 	const auth = useSelector(state => state.firebase.auth);
-	if (auth.uid) return <Redirect to="/" />;
+	if (auth.uid) return <Redirect to="/projects" />;
 
 	return (
 		<div className="container">

@@ -1,18 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import firebase from '../../config/firebase';
 import SigninLinks from './SigninLinks';
 import SignoutLinks from './SignoutLinks';
 
 const Navbar = () => {
-	const auth = useSelector(state => state.firebase.auth);
+	const user = firebase.auth().currentUser;
 	const profile = useSelector(state => state.firebase.profile);
-	const links = auth.uid ? (
-		<SigninLinks profile={profile} />
-	) : (
-		<SignoutLinks />
-	);
+	const links = user ? <SigninLinks profile={profile} /> : <SignoutLinks />;
 
 	return (
 		<nav className="nav-wrapper grey darken-3">
@@ -20,7 +17,12 @@ const Navbar = () => {
 				<Link to="/" className="brand-logo">
 					ProjectPlan
 				</Link>
-				{links}
+				<ul className="right">
+					<li>
+						<NavLink to="/">Home</NavLink>
+					</li>
+					{links}
+				</ul>
 			</div>
 		</nav>
 	);

@@ -23,6 +23,7 @@ export const signUp = credentials => async (
 			.collection('users')
 			.doc(res.user.uid)
 			.set({
+				email: res.user.email,
 				firstName: credentials.first_name,
 				lastName: credentials.last_name,
 				initials: credentials.first_name[0] + credentials.last_name[0]
@@ -54,7 +55,7 @@ export const signIn = credentials => (dispatch, getState, { getFirebase }) => {
 		.catch(err => {
 			dispatch({
 				type: 'LOGIN_ERROR',
-				payload: err
+				payload: err.message
 			});
 		});
 };

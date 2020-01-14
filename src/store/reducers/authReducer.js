@@ -27,37 +27,30 @@ const authReducer = (state = initialState, action) => {
 				}
 			};
 		case 'LOGIN_ERROR':
-			console.log('login failed');
 			return { ...state, authError: action.payload };
 
 		case 'LOGIN_SUCCESS':
-			console.log('login success');
 			return { ...state, authError: null };
 
 		case 'GOOGLE_SIGNIN_SUCCESS':
-			console.log('GOOGLE_SIGNIN_SUCCESS');
 			return state;
 
 		case 'GOOGLE_SIGNIN_ERROR':
-			console.log('GOOGLE_SIGNIN_ERROR');
 			return state;
 
 		case 'SIGNOUT_ERROR':
-			console.log('signout error');
 			return {
 				...state,
 				authError: action.payload.message
 			};
 
 		case 'SIGNUP_ERROR':
-			console.log('signup error');
 			return {
 				...state,
 				authError: action.payload.message
 			};
 
 		case 'SIGNUP_SUCCESS':
-			console.log('signup success');
 			return { ...state, authError: 'Signup Success' };
 
 		case 'VERIFY_START':

@@ -5,8 +5,10 @@ const initialState = {
 	isAdmin: undefined,
 	adminActionLoading: null,
 	adminMsg: null,
+	adminAdded: null,
 	deletingUser: null,
-	deletedMsg: null
+	deletedMsg: null,
+	isDeleted: null
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -19,8 +21,10 @@ const usersReducer = (state = initialState, action) => {
 				isAdmin: undefined,
 				adminActionLoading: null,
 				adminMsg: null,
+				adminAdded: null,
 				deletingUser: null,
-				deletedMsg: null
+				deletedMsg: null,
+				isDeleted: null
 			};
 
 		// Adding Admin Role Section
@@ -33,11 +37,20 @@ const usersReducer = (state = initialState, action) => {
 		case 'ADMIN_ACTION_END':
 			return { ...state, adminActionLoading: false };
 
-		case 'IS_ADDED_ADMIN':
+		case 'ADMIN_ADDED':
 			return {
 				...state,
 				adminActionLoading: true,
-				adminMsg: action.payload
+				adminMsg: action.payload,
+				adminAdded: true
+			};
+
+		case 'ADMIN_ADDED_ERROR':
+			return {
+				...state,
+				adminActionLoading: true,
+				adminMsg: action.payload,
+				adminAdded: false
 			};
 
 		// Delete a user section
@@ -51,7 +64,16 @@ const usersReducer = (state = initialState, action) => {
 			return {
 				...state,
 				deletingUser: true,
-				deletedMsg: action.payload
+				deletedMsg: action.payload,
+				isDeleted: true
+			};
+
+		case 'DELETE_USER_ERROR':
+			return {
+				...state,
+				deletingUser: true,
+				deletedMsg: action.payload,
+				isDeleted: false
 			};
 
 		// User section

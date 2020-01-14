@@ -75,7 +75,7 @@ exports.deleteUser = functions.https.onCall((data, context) => {
 	}
 
 	// Delete User
-	admin
+	return admin
 		.auth()
 		.deleteUser(data.userId)
 		.then(() => {

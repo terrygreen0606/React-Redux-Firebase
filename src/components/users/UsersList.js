@@ -44,7 +44,6 @@ const UsersList = () => {
 	// End Loading CSS classes
 
 	const addAdmin = email => {
-		console.log(email);
 		dispatch(addAdminRole(email));
 	};
 
@@ -52,11 +51,27 @@ const UsersList = () => {
 		dispatch(deleteUser(userId));
 	};
 
+	const handleChange = e => {
+		const filtered = users.filter(
+			user => user.firstName !== e.target.value
+		);
+		console.log(filtered);
+	};
+
 	if (userStatus === null) return <Redirect to="/signin" />;
 
 	return (
 		<div className="container">
-			<h4 className="center">Users List</h4>
+			<h4 className="center pink-text">Users List</h4>
+			<div className="input-field search-bar">
+				<input
+					id="search"
+					type="text"
+					className="validate"
+					onChange={handleChange}
+				/>
+				<label htmlFor="search">Search</label>
+			</div>
 			<table className="responsive-table">
 				<thead>
 					<tr>

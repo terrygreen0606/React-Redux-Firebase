@@ -1,31 +1,36 @@
 html {
-	min-height: 100%;
+    min-height: 100%;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
-	background: url(/img/background.jpg) no-repeat;
-	background-size: cover;
-	box-sizing: border-box;
-	background-position: center;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: url(/img/background.jpg) no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+    background-position: center;
 }
 
 form {
-	padding: 10px 30px;
-	margin-top: 60px;
+    padding: 10px 30px;
+    margin-top: 60px;
 }
 
 form button,
 form h5 {
-	margin: 20px 0;
+    margin: 20px 0;
 }
 
 input[type='text']:not(.browser-default):focus:not([readonly]),
 input[type='email']:not(.browser-default):focus:not([readonly]),
 input[type='password']:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-	border-color: #ec407a;
-	box-shadow: none;
+    border-color: #ec407a;
+    box-shadow: none;
+}
+
+.search-bar {
+    width: 30%;
+    float: right;
 }

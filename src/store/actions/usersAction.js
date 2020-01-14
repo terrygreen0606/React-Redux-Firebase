@@ -8,6 +8,7 @@ export const adminStatus = () => (
 	const firebase = getFirebase();
 	firebase.auth().onAuthStateChanged(user => {
 		if (user) {
+			// User is logged in
 			// Check if the loggedin user is admin or not
 			// returns true or undefined
 			user.getIdTokenResult().then(idTokenResult => {
@@ -18,6 +19,7 @@ export const adminStatus = () => (
 				}
 			});
 		} else {
+			// User is logged out.
 			dispatch({ type: 'ISADMIN', payload: null });
 		}
 	});
@@ -34,9 +36,9 @@ export const addAdminRole = email => async (
 	const addFunction = functions.httpsCallable('addAdminRole');
 	try {
 		const res = await addFunction({ email });
-		dispatch({ type: 'IS_ADDED_ADMIN', payload: res.data.message });
+		dispatch({ type: 'ADMIN_ADDED', payload: res.data.message });
 	} catch (err) {
-		dispatch({ type: 'IS_ADDED_ADMIN', payload: err.message });
+		dispatch({ type: 'ADMIN_ADDED_ERROR', payload: err.message });
 	}
 
 	dispatch({ type: 'ADMIN_ACTION_END' });
@@ -50,12 +52,12 @@ export const deleteUser = userId => async (
 ) => {
 	dispatch({ type: 'DELETE_USER_START' });
 
-	const addFunction = functions.httpsCallable('deleteUser');
+	const deleteFunction = functions.httpsCallable('deleteUser');
 	try {
-		const res = await addFunction({ userId });
+		const res = await deleteFunction({ userId });
 		dispatch({ type: 'DELETE_USER', payload: res.data.message });
 	} catch (err) {
-		dispatch({ type: 'DELETE_USER', payload: err.message });
+		dispatch({ type: 'DELETE_USER_ERROR', payload: err.message });
 	}
 
 	dispatch({ type: 'DELETE_USER_END' });

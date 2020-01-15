@@ -35,9 +35,10 @@ const UsersList = () => {
 	}, [loadedUsers]);
 	// End users Section
 
-	// Admin section
+	// Success or Error Message section
 	const adminMsg = useSelector(state => state.users.adminMsg);
 	const deletedMsg = useSelector(state => state.users.deletedMsg);
+	const [adminStatusMsg, setAdminStatusMsg] = useState('');
 
 	// Check adding admin role action status
 	const adminActionLoading = useSelector(
@@ -60,11 +61,15 @@ const UsersList = () => {
 	// End Loading CSS classes
 
 	const addAdmin = email => {
-		dispatch(addAdminRole(email));
+		userStatus
+			? dispatch(addAdminRole(email))
+			: setAdminStatusMsg('You are not an admin.');
 	};
 
 	const deleteThisUser = userId => {
-		dispatch(deleteUser(userId));
+		userStatus
+			? dispatch(deleteUser(userId))
+			: setAdminStatusMsg('You are not an admin.');
 	};
 
 	// Filtering for user search
@@ -85,17 +90,22 @@ const UsersList = () => {
 
 	// ComponentWillUnmount
 	useEffect(() => {
-		return () => dispatch(clearUsers());
+		return () => {
+			dispatch(clearUsers());
+		};
 	}, [dispatch]);
 
 	// If the user is not logged in, redirect to login page
 	if (userStatus === null) return <Redirect to="/signin" />;
+	// If the user is not an admin, redirect to projects page
+	if (userStatus === false) return <Redirect to="/projects" />;
 
 	return (
 		<div className="container">
 			<div className="red-text center">
 				{adminMsg ? <p>{adminMsg}</p> : null}
 				{deletedMsg ? <p>{deletedMsg}</p> : null}
+				{adminStatusMsg ? <p>{adminStatusMsg}</p> : null}
 			</div>
 			<h4 className="center pink-text">Users List</h4>
 			<div className="input-field search-bar">
@@ -141,7 +151,7 @@ const UsersList = () => {
 											className={`btn waves-effect waves-light ${deleting}`}
 										>
 											<i className="material-icons">
-												clear
+												delete
 											</i>
 										</button>
 									</td>

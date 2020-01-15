@@ -61,6 +61,7 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 	if (context.auth.token.admin !== true) {
 		return { message: 'Only Admins can add other admins.' };
 	}
+
 	// get user and add custom claims (admin)
 	return admin
 		.auth()
@@ -94,7 +95,7 @@ exports.deleteUser = functions.https.onCall((data, context) => {
 			return { message: 'The user is deleted' };
 		})
 		.catch(err => {
-			return { message: 'Error occurred deleting user: ', err };
+			return { message: `Error occurred deleting user: ${err.message}` };
 		});
 });
 

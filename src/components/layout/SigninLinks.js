@@ -22,7 +22,10 @@ const SigninLinks = props => {
 				</NavLink>
 			</li>
 			<li>
-				<NavLink to="/" className="btn btn-floating pink lighten-1">
+				<NavLink
+					to="/"
+					className="btn btn-floating pink lighten-1 name-badge"
+				>
 					{props.profile.initials}
 				</NavLink>
 			</li>

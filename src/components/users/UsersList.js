@@ -21,7 +21,12 @@ const UsersList = () => {
 
 	// Users section
 	const userStatus = useSelector(state => state.users.isAdmin);
-	const users = useSelector(state => state.firestore.ordered.users);
+	const loadedUsers = useSelector(state => state.firestore.ordered.users);
+
+	const [users, setUsers] = useState([]);
+	useEffect(() => {
+		setUsers(loadedUsers);
+	}, [loadedUsers]);
 
 	// Admin section
 	const adminMsg = useSelector(state => state.users.adminMsg);
@@ -52,10 +57,22 @@ const UsersList = () => {
 	};
 
 	const handleChange = e => {
-		const filtered = users.filter(
-			user => user.firstName !== e.target.value
-		);
-		console.log(filtered);
+		if (e.target.value === '') {
+			setUsers(loadedUsers);
+		} else {
+			console.log(users);
+			const filtered = users.filter(
+				user => user.firstName === e.target.value
+			);
+			if (filtered.length !== 0) {
+				console.log(filtered.length);
+				console.log('if---------');
+				setUsers(filtered);
+			} else {
+				setUsers(loadedUsers);
+			}
+			console.log(users);
+		}
 	};
 
 	if (userStatus === null) return <Redirect to="/signin" />;
@@ -70,7 +87,7 @@ const UsersList = () => {
 					className="validate"
 					onChange={handleChange}
 				/>
-				<label htmlFor="search">Search</label>
+				<label htmlFor="search">Search Users</label>
 			</div>
 			<table className="responsive-table">
 				<thead>

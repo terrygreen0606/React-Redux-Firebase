@@ -11,7 +11,9 @@ import {
 class CreateProject extends Component {
 	state = {
 		title: '',
-		content: ''
+		content: '',
+		creating: '',
+		created: ''
 	};
 
 	handleChange = e => {
@@ -20,16 +22,34 @@ class CreateProject extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.createProject(this.state);
-		this.props.history.push('/projects');
+		this.setState({ created: '' });
+		this.props.createProject({
+			title: this.state.title,
+			content: this.state.content
+		});
+		// this.props.history.push('/projects');
 	};
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.creating !== this.props.creating) {
+			this.setState({ creating: 'disabled' });
+			if (this.props.isCreated) {
+				this.setState({
+					title: '',
+					content: '',
+					creating: '',
+					created: 'The project is created'
+				});
+			}
+		}
+	}
 
 	componentWillUnmount() {
 		this.props.clearAllProjects();
 	}
 
 	render() {
-		const { auth, projectError } = this.props;
+		const { auth, projectError, isCreated } = this.props;
 
 		if (!auth.uid) return <Redirect to="/signin" />;
 
@@ -37,6 +57,7 @@ class CreateProject extends Component {
 			<div className="container">
 				<div className="red-text center">
 					{projectError ? <p>{projectError}</p> : null}
+					{isCreated ? <p>{this.state.created}</p> : null}
 				</div>
 				<form onSubmit={this.handleSubmit}>
 					<h5 className="grey-text text-darken-3">
@@ -53,6 +74,7 @@ class CreateProject extends Component {
 						<input
 							type="text"
 							id="title"
+							value={this.state.title}
 							required
 							onChange={this.handleChange}
 						/>
@@ -64,6 +86,7 @@ class CreateProject extends Component {
 						<textarea
 							id="content"
 							required
+							value={this.state.content}
 							className="materialize-textarea"
 							onChange={this.handleChange}
 						></textarea>
@@ -71,7 +94,7 @@ class CreateProject extends Component {
 					<div className="input-field">
 						<button
 							type="submit"
-							className="btn pink lighten-1 z-depth-0"
+							className={`btn pink lighten-1 z-depth-0 ${this.state.creating}`}
 						>
 							Create
 						</button>
@@ -84,12 +107,16 @@ class CreateProject extends Component {
 
 CreateProject.propTypes = {
 	createProject: PropTypes.func.isRequired,
-	clearAllProjects: PropTypes.func.isRequired
+	clearAllProjects: PropTypes.func.isRequired,
+	creating: PropTypes.bool,
+	isCreated: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
 	auth: state.firebase.auth,
-	projectError: state.project.projectError
+	projectError: state.project.projectError,
+	creating: state.project.creating,
+	isCreated: state.project.isCreated
 });
 
 export default connect(mapStateToProps, { createProject, clearAllProjects })(

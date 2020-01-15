@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
+import ReactTooltip from 'react-tooltip';
 
 import {
 	adminStatus,
@@ -40,15 +41,15 @@ const UsersList = () => {
 	const deletedMsg = useSelector(state => state.users.deletedMsg);
 	const [adminStatusMsg, setAdminStatusMsg] = useState('');
 
-	// Check adding admin role action status
+	// Check adding admin role action loading status
 	const adminActionLoading = useSelector(
 		state => state.users.adminActionLoading
 	);
 
-	// Check deleting a user action status
+	// Check deleting a user action loading status
 	const deletingUser = useSelector(state => state.users.deletingUser);
 
-	//Start Loading action css classes
+	// Get loading status and disable buttons
 	const [active, setActive] = useState('');
 	const [deleting, setDeleting] = useState('');
 	useEffect(() => {
@@ -58,8 +59,9 @@ const UsersList = () => {
 	useEffect(() => {
 		deletingUser ? setDeleting('disabled') : setDeleting('');
 	}, [deletingUser]);
-	// End Loading CSS classes
+	// End Get loading status and disable buttons
 
+	// Functions
 	const addAdmin = email => {
 		userStatus
 			? dispatch(addAdminRole(email))
@@ -97,6 +99,7 @@ const UsersList = () => {
 
 	// If the user is not logged in, redirect to login page
 	if (userStatus === null) return <Redirect to="/signin" />;
+
 	// If the user is not an admin, redirect to projects page
 	if (userStatus === false) return <Redirect to="/projects" />;
 
@@ -137,14 +140,19 @@ const UsersList = () => {
 									<td>
 										<button
 											onClick={() => addAdmin(user.email)}
+											data-tip="Add the admin role"
+											data-type="info"
 											className={`btn waves-effect waves-light ${active}`}
 										>
 											<i className="material-icons">
 												create
 											</i>
 										</button>
+										<ReactTooltip effect="solid" />
 										&nbsp;&nbsp;&nbsp;
 										<button
+											data-tip="Delete this user"
+											data-type="error"
 											onClick={() =>
 												deleteThisUser(user.id)
 											}

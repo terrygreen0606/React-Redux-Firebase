@@ -1,4 +1,4 @@
-export const createProject = project => (
+export const createProject = project => async (
 	dispatch,
 	getState,
 	{ getFirestore }
@@ -7,26 +7,27 @@ export const createProject = project => (
 	const firestore = getFirestore();
 	const profile = getState().firebase.profile;
 	const authorId = getState().firebase.auth.uid;
-	firestore
-		.collection('projects')
-		.add({
+
+	dispatch({ type: 'CREATING_PROJECT_START' });
+
+	try {
+		await firestore.collection('projects').add({
 			...project,
 			authorFirstName: profile.firstName,
 			authorLastName: profile.lastName,
 			authorId: authorId,
 			createdAt: new Date()
-		})
-		.then(() => {
-			dispatch({
-				type: 'CREATE_PROJECT'
-			});
-		})
-		.catch(err => {
-			dispatch({
-				type: 'CREATE_PROJECT_ERROR',
-				payload: err.message
-			});
 		});
+
+		dispatch({ type: 'CREATE_PROJECT' });
+	} catch (err) {
+		dispatch({
+			type: 'CREATE_PROJECT_ERROR',
+			payload: err.message
+		});
+	}
+
+	dispatch({ type: 'CREATING_PROJECT_END' });
 };
 
 export const deleteProject = projectId => (

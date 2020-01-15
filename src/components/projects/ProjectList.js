@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
+import ReactTooltip from 'react-tooltip';
 
 import {
 	deleteProject,
@@ -69,11 +70,20 @@ const ProjectList = () => {
 							<Link to={`/projects/${project.id}`}>
 								<ProjectSummary project={project} />
 							</Link>
+							<ReactTooltip effect="solid" />
 							<div className="row">
 								<div className="col s3 offset-s9 project-actions">
-									<i className="material-icons">edit</i>
 									<i
 										className="material-icons"
+										data-tip="Edit the project"
+										data-type="info"
+									>
+										edit
+									</i>
+									<i
+										className="material-icons"
+										data-tip="Delete the project"
+										data-type="error"
 										onClick={() =>
 											deleteThisProject(
 												project.id,

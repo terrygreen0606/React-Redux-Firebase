@@ -50,12 +50,17 @@ export const deleteUser = userId => async (
 	getState,
 	{ getFirebase, getFirestore }
 ) => {
+	const firestore = getFirestore();
 	dispatch({ type: 'DELETE_USER_START' });
 
 	const deleteFunction = functions.httpsCallable('deleteUser');
 	try {
 		const res = await deleteFunction({ userId });
-		dispatch({ type: 'DELETE_USER', payload: res.data.message });
+		firestore
+			.collection('users')
+			.doc(userId)
+			.delete();
+		dispatch({ type: 'DELETE_USER_SUCCESS', payload: res.data.message });
 	} catch (err) {
 		dispatch({ type: 'DELETE_USER_ERROR', payload: err.message });
 	}

@@ -1,6 +1,7 @@
 const initialState = {
 	projects: [],
 	projectError: null,
+	creating: null,
 	isCreated: null,
 	deleteProjectError: null,
 	isDeleted: null
@@ -12,6 +13,7 @@ const projectReducer = (state = initialState, action) => {
 			return {
 				projects: [],
 				projectError: null,
+				creating: null,
 				isCreated: null,
 				deleteProjectError: null,
 				isDeleted: null
@@ -19,6 +21,12 @@ const projectReducer = (state = initialState, action) => {
 
 		case 'CREATE_PROJECT':
 			return { ...state, isCreated: true };
+
+		case 'CREATING_PROJECT_START':
+			return { ...state, creating: true };
+
+		case 'CREATING_PROJECT_END':
+			return { ...state, creating: false };
 
 		case 'CREATE_PROJECT_ERROR':
 			return { ...state, isCreated: false, projectError: action.payload };

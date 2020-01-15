@@ -1,5 +1,6 @@
 const initialState = {
 	authError: null,
+	isLogging: null,
 	emailVerified: {
 		error: null,
 		loading: false
@@ -15,6 +16,7 @@ const authReducer = (state = initialState, action) => {
 		case 'CLEANUP_AUTH':
 			return {
 				authError: null,
+				isLogging: null,
 				emailVerified: {
 					...state.emailVerified,
 					loading: false,
@@ -25,6 +27,13 @@ const authReducer = (state = initialState, action) => {
 					loading: false
 				}
 			};
+
+		case 'LOGIN_START':
+			return { ...state, isLogging: true };
+
+		case 'LOGIN_END':
+			return { ...state, isLogging: false };
+
 		case 'LOGIN_ERROR':
 			return { ...state, authError: action.payload };
 

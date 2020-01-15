@@ -60,7 +60,7 @@ const usersReducer = (state = initialState, action) => {
 		case 'DELETE_USER_END':
 			return { ...state, deletingUser: false };
 
-		case 'DELETE_USER':
+		case 'DELETE_USER_SUCCESS':
 			return {
 				...state,
 				deletingUser: true,

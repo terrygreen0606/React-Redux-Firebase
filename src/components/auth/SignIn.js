@@ -7,9 +7,16 @@ import {
 	cleanupAuth
 } from '../../store/actions/authActions';
 
-const SignIn = props => {
+const SignIn = () => {
 	const dispatch = useDispatch();
+
+	// Get logging status and disable buttons
 	const authError = useSelector(state => state.auth.authError);
+	const isLogging = useSelector(state => state.auth.isLogging);
+	const [loggingStatus, setLoggingStatus] = useState('');
+	useEffect(() => {
+		isLogging ? setLoggingStatus('disabled') : setLoggingStatus('');
+	}, [isLogging]);
 
 	const inputData = { email: '', password: '' };
 	const [loginData, setLoginData] = useState(inputData);
@@ -20,7 +27,6 @@ const SignIn = props => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		// console.log(loginData);
 		dispatch(signIn(loginData));
 	};
 
@@ -62,7 +68,9 @@ const SignIn = props => {
 					/>
 				</div>
 				<div className="input-field center">
-					<button className="btn pink lighten-1 z-depth-0">
+					<button
+						className={`btn pink lighten-1 z-depth-0 ${loggingStatus}`}
+					>
 						Log In With email
 					</button>
 				</div>
@@ -70,7 +78,7 @@ const SignIn = props => {
 			<div className="input-field center">
 				<button
 					onClick={() => dispatch(googleSignIn())}
-					className="btn pink lighten-1 z-depth-0"
+					className={`btn pink lighten-1 z-depth-0 ${loggingStatus}`}
 				>
 					Google Log In
 				</button>

@@ -15,13 +15,19 @@ const SignUp = () => {
 	};
 	const [loginData, setLoginData] = useState(inputData);
 
+	// Get logging status and disable buttons
+	const isLogging = useSelector(state => state.auth.isLogging);
+	const [loggingStatus, setLoggingStatus] = useState('');
+	useEffect(() => {
+		isLogging ? setLoggingStatus('disabled') : setLoggingStatus('');
+	}, [isLogging]);
+
 	const handleChange = e => {
 		setLoginData({ ...loginData, [e.target.id]: e.target.value });
 	};
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		// console.log(loginData);
 		dispatch(signUp(loginData));
 	};
 
@@ -85,7 +91,9 @@ const SignUp = () => {
 					/>
 				</div>
 				<div className="input-field">
-					<button className="btn pink lighten-1 z-depth-0">
+					<button
+						className={`btn pink lighten-1 z-depth-0 ${loggingStatus}`}
+					>
 						Sign Up
 					</button>
 				</div>

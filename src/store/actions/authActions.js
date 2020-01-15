@@ -6,7 +6,8 @@ export const signUp = credentials => async (
 	const firebase = getFirebase();
 	const firestore = getFirestore();
 
-	// Here, can dispatch an action that tells the signing up process has started
+	dispatch({ type: 'LOGIN_START' });
+
 	try {
 		const res = await firebase
 			.auth()
@@ -33,32 +34,41 @@ export const signUp = credentials => async (
 			type: 'SIGNUP_SUCCESS'
 		});
 	} catch (err) {
-		console.log(err.message);
 		dispatch({
 			type: 'SIGNUP_ERROR',
 			payload: err.message
 		});
 	}
 
-	// Here, can dispatch an action that tells the signing up process has ended.
+	dispatch({ type: 'LOGIN_END' });
 };
 
-export const signIn = credentials => (dispatch, getState, { getFirebase }) => {
+export const signIn = credentials => async (
+	dispatch,
+	getState,
+	{ getFirebase }
+) => {
 	const firebase = getFirebase();
-	firebase
-		.auth()
-		.signInWithEmailAndPassword(credentials.email, credentials.password)
-		.then(() => {
-			dispatch({
-				type: 'LOGIN_SUCCESS'
-			});
-		})
-		.catch(err => {
-			dispatch({
-				type: 'LOGIN_ERROR',
-				payload: err.message
-			});
+
+	dispatch({ type: 'LOGIN_START' });
+
+	try {
+		await firebase
+			.auth()
+			.signInWithEmailAndPassword(
+				credentials.email,
+				credentials.password
+			);
+
+		dispatch({ type: 'LOGIN_SUCCESS' });
+	} catch (err) {
+		dispatch({
+			type: 'LOGIN_ERROR',
+			payload: err.message
 		});
+	}
+
+	dispatch({ type: 'LOGIN_END' });
 };
 
 export const googleSignIn = () => async (
@@ -69,6 +79,9 @@ export const googleSignIn = () => async (
 	const firebase = getFirebase();
 	const firestore = getFirestore();
 	const provider = new firebase.auth.GoogleAuthProvider();
+
+	dispatch({ type: 'LOGIN_START' });
+
 	try {
 		const res = await firebase.auth().signInWithPopup(provider);
 		await firestore
@@ -87,6 +100,8 @@ export const googleSignIn = () => async (
 	} catch (err) {
 		dispatch({ type: 'GOOGLE_SIGNIN_ERROR' });
 	}
+
+	dispatch({ type: 'LOGIN_END' });
 };
 
 export const signOut = () => (dispatch, getState, { getFirebase }) => {

@@ -29,12 +29,15 @@ class CreateProject extends Component {
 	}
 
 	render() {
-		const { auth } = this.props;
+		const { auth, projectError } = this.props;
 
 		if (!auth.uid) return <Redirect to="/signin" />;
 
 		return (
 			<div className="container">
+				<div className="red-text center">
+					{projectError ? <p>{projectError}</p> : null}
+				</div>
 				<form onSubmit={this.handleSubmit}>
 					<h5 className="grey-text text-darken-3">
 						Create a new Project

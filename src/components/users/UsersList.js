@@ -16,11 +16,16 @@ const UsersList = () => {
 		collection: 'users'
 	});
 
+	/**
+    |--------------------------------------------------
+    | Users section
+    | Check if the user is an admin
+    | userStatus ? null->not logged in, false->logged in, but not an admin, true->admin
+    |--------------------------------------------------
+    */
 	useEffect(() => {
 		dispatch(adminStatus());
 	}, [dispatch]);
-
-	// Users section
 	const userStatus = useSelector(state => state.users.isAdmin);
 	const loadedUsers = useSelector(state => state.firestore.ordered.users);
 
@@ -28,13 +33,18 @@ const UsersList = () => {
 	useEffect(() => {
 		setUsers(loadedUsers);
 	}, [loadedUsers]);
+	// End users Section
 
 	// Admin section
 	const adminMsg = useSelector(state => state.users.adminMsg);
 	const deletedMsg = useSelector(state => state.users.deletedMsg);
+
+	// Check adding admin role action status
 	const adminActionLoading = useSelector(
 		state => state.users.adminActionLoading
 	);
+
+	// Check deleting a user action status
 	const deletingUser = useSelector(state => state.users.deletingUser);
 
 	//Start Loading action css classes
@@ -57,6 +67,7 @@ const UsersList = () => {
 		dispatch(deleteUser(userId));
 	};
 
+	// Filtering for user search
 	const handleChange = e => {
 		if (e.target.value === '') {
 			setUsers(loadedUsers);
@@ -77,10 +88,15 @@ const UsersList = () => {
 		return () => dispatch(clearUsers());
 	}, [dispatch]);
 
+	// If the user is not logged in, redirect to login page
 	if (userStatus === null) return <Redirect to="/signin" />;
 
 	return (
 		<div className="container">
+			<div className="red-text center">
+				{adminMsg ? <p>{adminMsg}</p> : null}
+				{deletedMsg ? <p>{deletedMsg}</p> : null}
+			</div>
 			<h4 className="center pink-text">Users List</h4>
 			<div className="input-field search-bar">
 				<input
@@ -134,10 +150,6 @@ const UsersList = () => {
 						})}
 				</tbody>
 			</table>
-			<div className="red-text center">
-				{adminMsg ? <p>{adminMsg}</p> : null}
-				{deletedMsg ? <p>{deletedMsg}</p> : null}
-			</div>
 		</div>
 	);
 };

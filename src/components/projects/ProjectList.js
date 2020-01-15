@@ -1,25 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 
-import { deleteProject } from '../../store/actions/projectActions';
+import {
+	deleteProject,
+	clearAllProjects
+} from '../../store/actions/projectActions';
+import { adminStatus } from '../../store/actions/usersAction';
 import ProjectSummary from './ProjectSummary';
 
 const ProjectList = () => {
 	const dispatch = useDispatch();
+
+	// Get projects
 	useFirestoreConnect({
 		collection: 'projects',
 		orderBy: ['createdAt', 'desc']
 	});
 	const projects = useSelector(state => state.firestore.ordered.projects);
 
-	const deleteThisProject = projectId => {
-		dispatch(deleteProject(projectId));
+	// Get the current userId
+	const userId = useSelector(state => state.firebase.auth.uid);
+
+	// Get userStatus
+	useEffect(() => {
+		dispatch(adminStatus());
+	}, [dispatch]);
+	const userStatus = useSelector(state => state.users.isAdmin);
+
+	// Get project delete error
+	const deleteProjectError = useSelector(
+		state => state.project.deleteProjectError
+	);
+	const [deleteError, setDeleteError] = useState([]);
+
+	// Functions
+	const deleteThisProject = (projectId, authorId) => {
+		setDeleteError(deleteProjectError);
+		if (authorId === userId || userStatus) {
+			dispatch(deleteProject(projectId));
+		} else {
+			setDeleteError('You are not the author of this project');
+		}
 	};
+
+	// ComponentWillUnmount
+	useEffect(() => {
+		return () => {
+			dispatch(clearAllProjects());
+			setDeleteError([]);
+		};
+	}, [dispatch]);
 
 	return (
 		<div className="project-list section">
+			<div className="red-text center">
+				{deleteError ? <p>{deleteError}</p> : null}
+			</div>
 			{/* if projects exist, display. if not, don't display */}
 			{projects &&
 				projects.map(project => {
@@ -37,7 +75,10 @@ const ProjectList = () => {
 									<i
 										className="material-icons"
 										onClick={() =>
-											deleteThisProject(project.id)
+											deleteThisProject(
+												project.id,
+												project.authorId
+											)
 										}
 									>
 										delete

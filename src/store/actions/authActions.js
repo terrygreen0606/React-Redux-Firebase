@@ -33,9 +33,10 @@ export const signUp = credentials => async (
 			type: 'SIGNUP_SUCCESS'
 		});
 	} catch (err) {
+		console.log(err.message);
 		dispatch({
 			type: 'SIGNUP_ERROR',
-			payload: err
+			payload: err.message
 		});
 	}
 
@@ -74,6 +75,7 @@ export const googleSignIn = () => async (
 			.collection('users')
 			.doc(res.user.uid)
 			.set({
+				email: res.user.email,
 				firstName: res.additionalUserInfo.profile.given_name,
 				lastName: res.additionalUserInfo.profile.family_name,
 				initials:
@@ -99,7 +101,7 @@ export const signOut = () => (dispatch, getState, { getFirebase }) => {
 		.catch(err => {
 			dispatch({
 				type: 'SIGNOUT_ERROR',
-				payload: err
+				payload: err.message
 			});
 		});
 };

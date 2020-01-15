@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn, googleSignIn } from '../../store/actions/authActions';
+import {
+	signIn,
+	googleSignIn,
+	cleanupAuth
+} from '../../store/actions/authActions';
 
 const SignIn = props => {
 	const dispatch = useDispatch();
@@ -20,40 +24,57 @@ const SignIn = props => {
 		dispatch(signIn(loginData));
 	};
 
+	// ComponentWillUnmount
+	useEffect(() => {
+		return () => dispatch(cleanupAuth());
+	}, [dispatch]);
+
 	const auth = useSelector(state => state.firebase.auth);
 	if (auth.uid) return <Redirect to="/projects" />;
 
 	return (
 		<div className="container">
+			<div className="red-text center">
+				{authError ? <p>{authError}</p> : null}
+			</div>
 			<form onSubmit={handleSubmit}>
 				<h5 className="grey-text text-darken-3">Log In</h5>
 				<div className="input-field">
-					<label htmlFor="email">Email</label>
-					<input type="email" id="email" onChange={handleChange} />
-				</div>
-				<div className="input-field">
-					<label htmlFor="password">Password</label>
+					<label htmlFor="email" data-error="Wrong email">
+						Email
+					</label>
 					<input
-						type="password"
-						id="password"
+						type="email"
+						id="email"
+						required
 						onChange={handleChange}
 					/>
 				</div>
 				<div className="input-field">
+					<label htmlFor="password" data-error="Wrong Password">
+						Password
+					</label>
+					<input
+						type="password"
+						id="password"
+						required
+						onChange={handleChange}
+					/>
+				</div>
+				<div className="input-field center">
 					<button className="btn pink lighten-1 z-depth-0">
-						Log In
+						Log In With email
 					</button>
-					<div className="red-text center">
-						{authError ? <p>{authError}</p> : null}
-					</div>
 				</div>
 			</form>
-			<button
-				onClick={() => dispatch(googleSignIn())}
-				className="btn pink lighten-1 z-depth-0"
-			>
-				Log in with Google
-			</button>
+			<div className="input-field center">
+				<button
+					onClick={() => dispatch(googleSignIn())}
+					className="btn pink lighten-1 z-depth-0"
+				>
+					Google Log In
+				</button>
+			</div>
 		</div>
 	);
 };

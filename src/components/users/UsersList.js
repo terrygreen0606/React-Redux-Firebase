@@ -6,7 +6,8 @@ import { useFirestoreConnect } from 'react-redux-firebase';
 import {
 	adminStatus,
 	addAdminRole,
-	deleteUser
+	deleteUser,
+	clearUsers
 } from '../../store/actions/usersAction';
 
 const UsersList = () => {
@@ -60,20 +61,21 @@ const UsersList = () => {
 		if (e.target.value === '') {
 			setUsers(loadedUsers);
 		} else {
-			console.log(users);
 			const filtered = users.filter(
 				user => user.firstName === e.target.value
 			);
 			if (filtered.length !== 0) {
-				console.log(filtered.length);
-				console.log('if---------');
 				setUsers(filtered);
 			} else {
 				setUsers(loadedUsers);
 			}
-			console.log(users);
 		}
 	};
+
+	// ComponentWillUnmount
+	useEffect(() => {
+		return () => dispatch(clearUsers());
+	}, [dispatch]);
 
 	if (userStatus === null) return <Redirect to="/signin" />;
 

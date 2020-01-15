@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { createProject } from '../../store/actions/projectActions';
+
+import {
+	createProject,
+	clearAllProjects
+} from '../../store/actions/projectActions';
 
 class CreateProject extends Component {
 	state = {
@@ -17,8 +21,12 @@ class CreateProject extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.createProject(this.state);
-		this.props.history.push('/');
+		this.props.history.push('/projects');
 	};
+
+	componentWillUnmount() {
+		this.props.clearAllProjects();
+	}
 
 	render() {
 		const { auth } = this.props;
@@ -27,28 +35,41 @@ class CreateProject extends Component {
 
 		return (
 			<div className="container">
-				<form onSubmit={this.handleSubmit} className="white">
+				<form onSubmit={this.handleSubmit}>
 					<h5 className="grey-text text-darken-3">
 						Create a new Project
 					</h5>
 					<div className="input-field">
-						<label htmlFor="title">Title</label>
+						<label
+							htmlFor="title"
+							data-error="Wrong Title"
+							data-success="right"
+						>
+							Title
+						</label>
 						<input
 							type="text"
 							id="title"
+							required
 							onChange={this.handleChange}
 						/>
 					</div>
 					<div className="input-field">
-						<label htmlFor="content">Content</label>
+						<label htmlFor="content" data-error="Wrong Content">
+							Content
+						</label>
 						<textarea
 							id="content"
+							required
 							className="materialize-textarea"
 							onChange={this.handleChange}
 						></textarea>
 					</div>
 					<div className="input-field">
-						<button className="btn pink lighten-1 z-depth-0">
+						<button
+							type="submit"
+							className="btn pink lighten-1 z-depth-0"
+						>
 							Create
 						</button>
 					</div>
@@ -59,11 +80,15 @@ class CreateProject extends Component {
 }
 
 CreateProject.propTypes = {
-	createProject: PropTypes.func.isRequired
+	createProject: PropTypes.func.isRequired,
+	clearAllProjects: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.firebase.auth
+	auth: state.firebase.auth,
+	projectError: state.project.projectError
 });
 
-export default connect(mapStateToProps, { createProject })(CreateProject);
+export default connect(mapStateToProps, { createProject, clearAllProjects })(
+	CreateProject
+);

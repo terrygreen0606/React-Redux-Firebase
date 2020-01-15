@@ -14,7 +14,6 @@ const authReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'CLEANUP_AUTH':
 			return {
-				...state,
 				authError: null,
 				emailVerified: {
 					...state.emailVerified,
@@ -41,13 +40,13 @@ const authReducer = (state = initialState, action) => {
 		case 'SIGNOUT_ERROR':
 			return {
 				...state,
-				authError: action.payload.message
+				authError: action.payload
 			};
 
 		case 'SIGNUP_ERROR':
 			return {
 				...state,
-				authError: action.payload.message
+				authError: action.payload
 			};
 
 		case 'SIGNUP_SUCCESS':

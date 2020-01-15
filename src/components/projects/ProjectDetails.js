@@ -2,13 +2,19 @@ import React from 'react';
 import moment from 'moment';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
+
 import firebase from '../../config/firebase';
 
 const ProjectDetails = props => {
 	// props automatically comes from react router in app.js
 
+	useFirestoreConnect({
+		collection: 'projects'
+	});
 	const id = props.match.params.id;
 	const projects = useSelector(state => state.firestore.data.projects);
+
 	const project = projects ? projects[id] : null;
 
 	// if not logged in, redirect to sign in page.

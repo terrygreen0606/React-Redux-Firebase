@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { signUp } from '../../store/actions/authActions';
+import { signUp, cleanupAuth } from '../../store/actions/authActions';
 
 const SignUp = () => {
 	const dispatch = useDispatch();
@@ -25,34 +25,62 @@ const SignUp = () => {
 		dispatch(signUp(loginData));
 	};
 
+	// ComponentWillUnmount
+	useEffect(() => {
+		return () => dispatch(cleanupAuth());
+	}, [dispatch]);
+
 	const auth = useSelector(state => state.firebase.auth);
 	if (auth.uid) return <Redirect to="/" />;
 
 	return (
 		<div className="container">
+			<div className="red-text center">
+				{authError ? <p>{authError}</p> : null}
+			</div>
 			<form onSubmit={handleSubmit}>
 				<h5 className="grey-text text-darken-3">Sign Up</h5>
 				<div className="input-field">
-					<label htmlFor="text">First Name</label>
+					<label htmlFor="text" data-error="Incorrect first name">
+						First Name
+					</label>
 					<input
 						type="text"
 						id="first_name"
+						required
 						onChange={handleChange}
 					/>
 				</div>
 				<div className="input-field">
-					<label htmlFor="text">Last Name</label>
-					<input type="text" id="last_name" onChange={handleChange} />
+					<label htmlFor="text" data-error="Incorrect last name">
+						Last Name
+					</label>
+					<input
+						type="text"
+						id="last_name"
+						required
+						onChange={handleChange}
+					/>
 				</div>
 				<div className="input-field">
-					<label htmlFor="email">Email</label>
-					<input type="email" id="email" onChange={handleChange} />
+					<label htmlFor="email" data-error="Wrong Email">
+						Email
+					</label>
+					<input
+						type="email"
+						id="email"
+						required
+						onChange={handleChange}
+					/>
 				</div>
 				<div className="input-field">
-					<label htmlFor="password">Password</label>
+					<label htmlFor="password" data-error="Wrong Password">
+						Password
+					</label>
 					<input
 						type="password"
 						id="password"
+						required
 						onChange={handleChange}
 					/>
 				</div>
@@ -60,9 +88,6 @@ const SignUp = () => {
 					<button className="btn pink lighten-1 z-depth-0">
 						Sign Up
 					</button>
-					<div className="red-text center">
-						{authError ? <p>{authError}</p> : null}
-					</div>
 				</div>
 			</form>
 		</div>

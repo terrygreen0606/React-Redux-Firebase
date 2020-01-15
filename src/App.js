@@ -21,8 +21,9 @@ function App() {
 					<Navbar />
 					<Switch>
 						<Route exact path="/" component={Homepage} />
-						<Route path="/projects" component={Dashboard} />
+						<Route exact path="/projects" component={Dashboard} />
 						<Route
+							exact
 							path="/projects/:id"
 							component={ProjectDetails}
 						/>

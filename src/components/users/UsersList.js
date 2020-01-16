@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import ReactTooltip from 'react-tooltip';
+import Pagination from 'react-js-pagination';
 
 import {
 	adminStatus,
@@ -35,6 +36,19 @@ const UsersList = () => {
 		setUsers(loadedUsers);
 	}, [loadedUsers]);
 	// End users Section
+
+	// Pagination
+	const itemsPerPage = 7;
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const indexOfLastItem = currentPage * itemsPerPage;
+	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+	const currentItems =
+		users && users.slice(indexOfFirstItem, indexOfLastItem);
+
+	const paginate = pageNumber => setCurrentPage(pageNumber);
+	// End Pagination
 
 	// Success or Error Message section
 	const adminMsg = useSelector(state => state.users.adminMsg);
@@ -130,8 +144,8 @@ const UsersList = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{users &&
-						users.map(user => {
+					{currentItems &&
+						currentItems.map(user => {
 							return (
 								<tr key={user.id}>
 									<td>{user.firstName}</td>
@@ -168,6 +182,15 @@ const UsersList = () => {
 						})}
 				</tbody>
 			</table>
+			{users && (
+				<Pagination
+					activePage={currentPage}
+					itemsCountPerPage={itemsPerPage}
+					totalItemsCount={users.length}
+					pageRangeDisplayed={5}
+					onChange={paginate}
+				/>
+			)}
 		</div>
 	);
 };

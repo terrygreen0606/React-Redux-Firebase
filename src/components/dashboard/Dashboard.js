@@ -9,7 +9,7 @@ import VerifyEmail from '../auth/VerifyEmail';
 
 const Dashboard = () => {
 	useFirestoreConnect([
-		{ collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] }
+		{ collection: 'notifications', limit: 7, orderBy: ['time', 'desc'] }
 	]);
 	const notifications = useSelector(
 		state => state.firestore.ordered.notifications

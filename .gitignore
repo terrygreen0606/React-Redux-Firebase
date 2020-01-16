@@ -4,3 +4,4 @@
 /node_modules
 /dist
 firebase_rules.txt
+firebase-debug.log

@@ -22,10 +22,12 @@ const Notifications = props => {
 												item.time.toDate()
 											).fromNow()}
 										</div>
+										<hr />
 									</li>
 								);
 							})}
 					</ul>
+					<span className="card-title">.........</span>
 				</div>
 			</div>
 		</div>

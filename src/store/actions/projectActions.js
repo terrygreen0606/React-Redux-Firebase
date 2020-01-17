@@ -49,32 +49,60 @@ export const deleteProject = projectId => (
 		});
 };
 
-export const loadProjects = (current, limit) => async (
+export const paginateProjects = (navigation, snapshot, limit) => async (
 	dispatch,
 	getState,
 	{ getFirestore }
 ) => {
-	// make async calls to database
-	const returnProjects = [];
+	// Documentation for firebase pagination
+	// https://firebase.google.com/docs/firestore/query-data/query-cursors
+
 	const firestore = getFirestore();
+	let projectQuery = null;
+	let returnProjects = [];
 
 	dispatch({ type: 'LOAD_PROJECTS_START' });
 
 	try {
-		const documentSnapshots = await current.get();
+		switch (navigation) {
+			case 'first':
+				projectQuery = firestore
+					.collection('projects')
+					.orderBy('createdAt', 'desc')
+					.limit(limit);
+				break;
+
+			case 'next':
+				projectQuery = firestore
+					.collection('projects')
+					.orderBy('createdAt', 'desc')
+					.startAfter(snapshot)
+					.limit(limit);
+				break;
+
+			case 'prev':
+				projectQuery = firestore
+					.collection('projects')
+					.orderBy('createdAt', 'desc')
+					.endBefore(snapshot)
+					.limitToLast(limit);
+				break;
+
+			default:
+				projectQuery = null;
+				break;
+		}
+
+		const documentSnapshots = await projectQuery.get();
+
+		const firstVisible = documentSnapshots.docs[0];
+		dispatch({ type: 'FIRST_PROJECT_SNAPSHOT', payload: firstVisible });
+
 		const lastVisible =
 			documentSnapshots.docs[documentSnapshots.docs.length - 1];
+		dispatch({ type: 'LAST_PROJECT_SNAPSHOT', payload: lastVisible });
 
-		const next = await firestore
-			.collection('projects')
-			.orderBy('createdAt', 'desc')
-			.startAfter(lastVisible)
-			.limit(limit)
-			.get();
-
-		dispatch({ type: 'CURRENT_PROJECT_QUERY', payload: next });
-
-		next.docs.map(item => returnProjects.push(item.data()));
+		documentSnapshots.docs.map(item => returnProjects.push(item.data()));
 
 		dispatch({ type: 'LOAD_PROJECTS_SUCCESS', payload: returnProjects });
 	} catch (err) {

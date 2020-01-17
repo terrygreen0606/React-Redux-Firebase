@@ -37,7 +37,8 @@ const UsersList = () => {
 	}, [loadedUsers]);
 	// End users Section
 
-	// Pagination
+	// Pagination with react-js-pagination plugin
+	// Load all users at first and slice them with the index of first and last projects on the page.
 	const itemsPerPage = 7;
 	const [currentPage, setCurrentPage] = useState(1);
 

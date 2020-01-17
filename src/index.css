@@ -65,6 +65,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
 	text-align: center;
 }
 
+.project-summary:hover {
+	background-color: antiquewhite;
+}
+
 @media screen and (max-width: 1100px) {
 	.sidenav li > a.btn {
 		display: flex;

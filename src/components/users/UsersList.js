@@ -6,7 +6,6 @@ import ReactTooltip from 'react-tooltip';
 import Pagination from 'react-js-pagination';
 
 import {
-	adminStatus,
 	addAdminRole,
 	deleteUser,
 	clearUsers

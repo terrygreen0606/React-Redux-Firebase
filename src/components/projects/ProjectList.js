@@ -44,15 +44,23 @@ const ProjectList = props => {
 	);
 	const [deleteError, setDeleteError] = useState([]);
 
-	// Functions
-	const deleteThisProject = (projectId, authorId) => {
-		setDeleteError(deleteProjectError);
+	// Delete Project from firestore and ui (using createRef to get the element and remove from ui)
+	const isDeleted = useSelector(state => state.project.isDeleted);
+	const deleteThisProject = (projectId, authorId, ref) => {
 		if (authorId === userId || props.userStatus) {
-			dispatch(deleteProject(projectId));
+			dispatch(deleteProject(projectId)); // Remove from Firebase
+			ref.current.remove(); // Remove from UI
 		} else {
 			setDeleteError('You are not the author of this project');
 		}
 	};
+	// Set delete success or error message
+	useEffect(() => {
+		isDeleted
+			? setDeleteError('The project is deleted')
+			: setDeleteError(deleteProjectError);
+	}, [isDeleted, deleteProjectError]);
+	//End Delete Project
 
 	// ComponentWillUnmount
 	useEffect(() => {
@@ -73,9 +81,14 @@ const ProjectList = props => {
 				{deleteError ? <p>{deleteError}</p> : null}
 			</div>
 			{/* if projects exist, display. if not, don't display */}
-			{projects.map((project, index) => {
+			{projects.map(project => {
+				const ref = React.createRef();
 				return (
-					<div className="card z-depth-0 project-summary" key={index}>
+					<div
+						className="card z-depth-0 project-summary"
+						key={project.id}
+						ref={ref}
+					>
 						<Link to={`/projects/${project.id}`}>
 							<ProjectSummary project={project} />
 						</Link>
@@ -96,7 +109,8 @@ const ProjectList = props => {
 									onClick={() =>
 										deleteThisProject(
 											project.id,
-											project.authorId
+											project.authorId,
+											ref
 										)
 									}
 								>

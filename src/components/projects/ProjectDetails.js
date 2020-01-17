@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 
-import firebase from '../../config/firebase';
+import WithUserStatus from '../hocs/WithUserStatus';
 
 const ProjectDetails = props => {
-	// props automatically comes from react router in app.js
+	// props automatically comes from react router in app.js and hoc components
 
 	useFirestoreConnect({
 		collection: 'projects'
@@ -18,8 +18,7 @@ const ProjectDetails = props => {
 	const project = projects ? projects[id] : null;
 
 	// if not logged in, redirect to sign in page.
-	const user = firebase.auth().currentUser;
-	if (!user) return <Redirect to="/signin" />;
+	if (props.userStatus === null) return <Redirect to="/signin" />;
 
 	if (project) {
 		return (
@@ -52,4 +51,4 @@ const ProjectDetails = props => {
 	}
 };
 
-export default ProjectDetails;
+export default WithUserStatus(ProjectDetails);

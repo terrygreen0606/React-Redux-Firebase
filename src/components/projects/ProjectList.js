@@ -8,12 +8,12 @@ import {
 	clearAllProjects,
 	paginateProjects
 } from '../../store/actions/projectActions';
-import { adminStatus } from '../../store/actions/usersAction';
 import ProjectSummary from './ProjectSummary';
+import WithUserStatus from '../hocs/WithUserStatus';
 
-const ProjectList = () => {
+const ProjectList = props => {
 	// Firebase Pagination
-	// Load Firebase when the next button is clicked
+	// Load Firebase every time the next button is clicked
 	const limit = 3;
 	const dispatch = useDispatch();
 
@@ -38,12 +38,6 @@ const ProjectList = () => {
 	// Get the current userId
 	const userId = useSelector(state => state.firebase.auth.uid);
 
-	// Get userStatus -> admin or not
-	useEffect(() => {
-		dispatch(adminStatus());
-	}, [dispatch]);
-	const userStatus = useSelector(state => state.users.isAdmin);
-
 	// Get project delete error
 	const deleteProjectError = useSelector(
 		state => state.project.deleteProjectError
@@ -53,7 +47,7 @@ const ProjectList = () => {
 	// Functions
 	const deleteThisProject = (projectId, authorId) => {
 		setDeleteError(deleteProjectError);
-		if (authorId === userId || userStatus) {
+		if (authorId === userId || props.userStatus) {
 			dispatch(deleteProject(projectId));
 		} else {
 			setDeleteError('You are not the author of this project');
@@ -113,20 +107,24 @@ const ProjectList = () => {
 					</div>
 				);
 			})}
-			<button
-				className="btn waves-effect"
-				onClick={() => paginate('prev')}
-			>
-				Prev
-			</button>
-			<button
-				className="btn waves-effect"
-				onClick={() => paginate('next')}
-			>
-				Next
-			</button>
+			<div className="pagination-buttons">
+				<button
+					className="btn waves-effect"
+					onClick={() => paginate('prev')}
+				>
+					<i className="material-icons left">chevron_left</i>
+					Prev
+				</button>
+				<button
+					className="btn waves-effect"
+					onClick={() => paginate('next')}
+				>
+					Next
+					<i className="material-icons right">chevron_right</i>
+				</button>
+			</div>
 		</div>
 	);
 };
 
-export default ProjectList;
+export default WithUserStatus(ProjectList);

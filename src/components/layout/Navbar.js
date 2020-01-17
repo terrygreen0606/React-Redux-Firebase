@@ -3,11 +3,12 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import firebase from '../../config/firebase';
+import WithUserStatus from '../hocs/WithUserStatus';
 import SigninLinks from './SigninLinks';
 import SignoutLinks from './SignoutLinks';
 
-const Navbar = () => {
+const Navbar = props => {
+	// For responsive Navbar
 	useEffect(() => {
 		const elem = document.querySelector('.sidenav');
 		M.Sidenav.init(elem, {
@@ -15,9 +16,15 @@ const Navbar = () => {
 			inDuration: 250
 		});
 	}, []);
-	const user = firebase.auth().currentUser;
+	// End Responsive Navbar import
+
 	const profile = useSelector(state => state.firebase.profile);
-	const links = user ? <SigninLinks profile={profile} /> : <SignoutLinks />;
+	const links =
+		props.userStatus === null ? (
+			<SignoutLinks />
+		) : (
+			<SigninLinks profile={profile} />
+		);
 
 	return (
 		<Fragment>
@@ -51,4 +58,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default WithUserStatus(Navbar);

@@ -1,15 +1,12 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import { signOut } from '../../store/actions/authActions';
-import { adminStatus } from '../../store/actions/usersAction';
+import WithUserStatus from '../hocs/WithUserStatus';
 
 const SigninLinks = props => {
 	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(adminStatus());
-	}, [dispatch]);
-	const userStatus = useSelector(state => state.users.isAdmin);
 
 	return (
 		<Fragment>
@@ -19,7 +16,7 @@ const SigninLinks = props => {
 			<li>
 				<NavLink to="/create">New Project</NavLink>
 			</li>
-			{userStatus ? (
+			{props.userStatus ? (
 				<li>
 					<NavLink to="/users">Users</NavLink>
 				</li>
@@ -41,4 +38,4 @@ const SigninLinks = props => {
 	);
 };
 
-export default SigninLinks;
+export default WithUserStatus(SigninLinks);

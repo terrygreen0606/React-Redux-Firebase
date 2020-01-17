@@ -7,6 +7,7 @@ import {
 	createProject,
 	clearAllProjects
 } from '../../store/actions/projectActions';
+import WithUserStatus from '../hocs/WithUserStatus';
 
 class CreateProject extends Component {
 	state = {
@@ -27,7 +28,6 @@ class CreateProject extends Component {
 			title: this.state.title,
 			content: this.state.content
 		});
-		// this.props.history.push('/projects');
 	};
 
 	componentDidUpdate(prevProps) {
@@ -40,6 +40,7 @@ class CreateProject extends Component {
 					creating: '',
 					created: 'The project is created'
 				});
+				this.props.history.push('/projects');
 			}
 		}
 	}
@@ -49,9 +50,8 @@ class CreateProject extends Component {
 	}
 
 	render() {
-		const { auth, projectError, isCreated } = this.props;
-
-		if (!auth.uid) return <Redirect to="/signin" />;
+		const { projectError, isCreated, userStatus } = this.props;
+		if (userStatus === null) return <Redirect to="/signin" />;
 
 		return (
 			<div className="container">
@@ -113,12 +113,11 @@ CreateProject.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	auth: state.firebase.auth,
 	projectError: state.project.projectError,
 	creating: state.project.creating,
 	isCreated: state.project.isCreated
 });
 
-export default connect(mapStateToProps, { createProject, clearAllProjects })(
-	CreateProject
+export default WithUserStatus(
+	connect(mapStateToProps, { createProject, clearAllProjects })(CreateProject)
 );

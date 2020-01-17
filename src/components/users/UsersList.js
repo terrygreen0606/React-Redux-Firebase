@@ -11,8 +11,9 @@ import {
 	deleteUser,
 	clearUsers
 } from '../../store/actions/usersAction';
+import WithUserStatus from '../hocs/WithUserStatus';
 
-const UsersList = () => {
+const UsersList = props => {
 	const dispatch = useDispatch();
 	useFirestoreConnect({
 		collection: 'users'
@@ -22,13 +23,9 @@ const UsersList = () => {
     |--------------------------------------------------
     | Users section
     | Check if the user is an admin
-    | userStatus ? null->not logged in, false->logged in, but not an admin, true->admin
+    | props.userStatus ? null->not logged in, false->logged in, but not an admin, true->admin
     |--------------------------------------------------
     */
-	useEffect(() => {
-		dispatch(adminStatus());
-	}, [dispatch]);
-	const userStatus = useSelector(state => state.users.isAdmin);
 	const loadedUsers = useSelector(state => state.firestore.ordered.users);
 
 	const [users, setUsers] = useState([]);
@@ -78,13 +75,13 @@ const UsersList = () => {
 
 	// Functions
 	const addAdmin = email => {
-		userStatus
+		props.userStatus
 			? dispatch(addAdminRole(email))
 			: setAdminStatusMsg('You are not an admin.');
 	};
 
 	const deleteThisUser = userId => {
-		userStatus
+		props.userStatus
 			? dispatch(deleteUser(userId))
 			: setAdminStatusMsg('You are not an admin.');
 	};
@@ -113,10 +110,10 @@ const UsersList = () => {
 	}, [dispatch]);
 
 	// If the user is not logged in, redirect to login page
-	if (userStatus === null) return <Redirect to="/signin" />;
+	if (props.userStatus === null) return <Redirect to="/signin" />;
 
 	// If the user is not an admin, redirect to projects page
-	if (userStatus === false) return <Redirect to="/projects" />;
+	if (props.userStatus === false) return <Redirect to="/projects" />;
 
 	return (
 		<div className="container">
@@ -196,4 +193,4 @@ const UsersList = () => {
 	);
 };
 
-export default UsersList;
+export default WithUserStatus(UsersList);

@@ -102,7 +102,10 @@ export const paginateProjects = (navigation, snapshot, limit) => async (
 			documentSnapshots.docs[documentSnapshots.docs.length - 1];
 		dispatch({ type: 'LAST_PROJECT_SNAPSHOT', payload: lastVisible });
 
-		documentSnapshots.docs.map(item => returnProjects.push(item.data()));
+		// item.data() just includes only data. have to include item.id to use this id in the front-end
+		documentSnapshots.docs.map(item =>
+			returnProjects.push({ ...item.data(), id: item.id })
+		);
 
 		dispatch({ type: 'LOAD_PROJECTS_SUCCESS', payload: returnProjects });
 	} catch (err) {

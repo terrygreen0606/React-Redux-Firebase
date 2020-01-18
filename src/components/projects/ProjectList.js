@@ -72,7 +72,11 @@ const ProjectList = props => {
 
 	const projectLoading = useSelector(state => state.project.isLoading);
 	if (projectLoading) {
-		return <div>Loading....</div>;
+		return (
+			<div className="container center">
+				<p>Loading projects...</p>
+			</div>
+		);
 	}
 
 	return (
@@ -95,16 +99,25 @@ const ProjectList = props => {
 						<ReactTooltip effect="solid" />
 						<div className="row">
 							<div className="col s3 offset-s9 project-actions">
-								<i
-									className="material-icons"
-									data-tip="Edit the project"
-									data-type="info"
+								{/* sending params in Link tag. Go and check CreateProject component */}
+								<Link
+									to={{
+										pathname: '/create',
+										state: { project }
+									}}
 								>
-									edit
-								</i>
+									<i
+										className="material-icons"
+										data-tip="Edit"
+										data-type="info"
+									>
+										edit
+									</i>
+								</Link>
+
 								<i
 									className="material-icons"
-									data-tip="Delete the project"
+									data-tip="Delete"
 									data-type="error"
 									onClick={() =>
 										deleteThisProject(

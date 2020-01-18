@@ -114,82 +114,92 @@ const UsersList = props => {
 	// If the user is not an admin, redirect to projects page
 	if (props.userStatus === false) return <Redirect to="/projects" />;
 
-	return (
-		<div className="container">
-			<div className="red-text center">
-				{adminMsg ? <p>{adminMsg}</p> : null}
-				{deletedMsg ? <p>{deletedMsg}</p> : null}
-				{adminStatusMsg ? <p>{adminStatusMsg}</p> : null}
+	if (users) {
+		return (
+			<div className="container">
+				<div className="red-text center">
+					{adminMsg ? <p>{adminMsg}</p> : null}
+					{deletedMsg ? <p>{deletedMsg}</p> : null}
+					{adminStatusMsg ? <p>{adminStatusMsg}</p> : null}
+				</div>
+				<h4 className="center pink-text">Users List</h4>
+				<div className="input-field search-bar">
+					<input
+						id="search"
+						type="text"
+						className="validate"
+						onChange={handleChange}
+					/>
+					<label htmlFor="search">Search Users</label>
+				</div>
+				<table className="responsive-table">
+					<thead>
+						<tr>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{currentItems &&
+							currentItems.map(user => {
+								return (
+									<tr key={user.id}>
+										<td>{user.firstName}</td>
+										<td>{user.lastName}</td>
+										<td>{user.email}</td>
+										<td>
+											<button
+												onClick={() =>
+													addAdmin(user.email)
+												}
+												data-tip="Add the admin role"
+												data-type="info"
+												className={`btn waves-effect waves-light ${active}`}
+											>
+												<i className="material-icons">
+													create
+												</i>
+											</button>
+											<ReactTooltip effect="solid" />
+											&nbsp;&nbsp;&nbsp;
+											<button
+												data-tip="Delete this user"
+												data-type="error"
+												onClick={() =>
+													deleteThisUser(user.id)
+												}
+												className={`btn waves-effect waves-light ${deleting}`}
+											>
+												<i className="material-icons">
+													delete
+												</i>
+											</button>
+										</td>
+									</tr>
+								);
+							})}
+					</tbody>
+				</table>
+				{users && (
+					<Pagination
+						activePage={currentPage}
+						itemsCountPerPage={itemsPerPage}
+						totalItemsCount={users.length}
+						pageRangeDisplayed={5}
+						onChange={paginate}
+					/>
+				)}
 			</div>
-			<h4 className="center pink-text">Users List</h4>
-			<div className="input-field search-bar">
-				<input
-					id="search"
-					type="text"
-					className="validate"
-					onChange={handleChange}
-				/>
-				<label htmlFor="search">Search Users</label>
+		);
+	} else {
+		return (
+			<div className="container center">
+				<p>Loading Users...</p>
 			</div>
-			<table className="responsive-table">
-				<thead>
-					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Email</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{currentItems &&
-						currentItems.map(user => {
-							return (
-								<tr key={user.id}>
-									<td>{user.firstName}</td>
-									<td>{user.lastName}</td>
-									<td>{user.email}</td>
-									<td>
-										<button
-											onClick={() => addAdmin(user.email)}
-											data-tip="Add the admin role"
-											data-type="info"
-											className={`btn waves-effect waves-light ${active}`}
-										>
-											<i className="material-icons">
-												create
-											</i>
-										</button>
-										<ReactTooltip effect="solid" />
-										&nbsp;&nbsp;&nbsp;
-										<button
-											data-tip="Delete this user"
-											data-type="error"
-											onClick={() =>
-												deleteThisUser(user.id)
-											}
-											className={`btn waves-effect waves-light ${deleting}`}
-										>
-											<i className="material-icons">
-												delete
-											</i>
-										</button>
-									</td>
-								</tr>
-							);
-						})}
-				</tbody>
-			</table>
-			{users && (
-				<Pagination
-					activePage={currentPage}
-					itemsCountPerPage={itemsPerPage}
-					totalItemsCount={users.length}
-					pageRangeDisplayed={5}
-					onChange={paginate}
-				/>
-			)}
-		</div>
-	);
+		);
+	}
 };
 
 export default WithUserStatus(UsersList);

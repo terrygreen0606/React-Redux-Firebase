@@ -54,6 +54,7 @@ const SignUp = () => {
 						type="text"
 						id="first_name"
 						required
+						autoFocus
 						onChange={handleChange}
 					/>
 				</div>

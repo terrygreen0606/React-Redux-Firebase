@@ -10,12 +10,16 @@ import {
 import WithUserStatus from '../hocs/WithUserStatus';
 
 class CreateProject extends Component {
-	state = {
-		title: '',
-		content: '',
-		creating: '',
-		created: ''
-	};
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			title: '',
+			content: '',
+			creating: '',
+			created: ''
+		};
+	}
 
 	handleChange = e => {
 		this.setState({ [e.target.id]: e.target.value });
@@ -50,6 +54,16 @@ class CreateProject extends Component {
 	}
 
 	render() {
+		// This prop comes from router. Go and check ProjectList component's Link tag
+		const project = this.props.location.state
+			? this.props.location.state.project
+			: null;
+		if (project) {
+			console.log(project.id);
+		} else {
+			console.log('no project');
+		}
+
 		const { projectError, isCreated, userStatus } = this.props;
 		if (userStatus === null) return <Redirect to="/signin" />;
 
@@ -61,7 +75,9 @@ class CreateProject extends Component {
 				</div>
 				<form onSubmit={this.handleSubmit}>
 					<h5 className="grey-text text-darken-3">
-						Create a new Project
+						{project
+							? 'Update this project'
+							: 'Create a new Project'}
 					</h5>
 					<div className="input-field">
 						<label
@@ -74,8 +90,9 @@ class CreateProject extends Component {
 						<input
 							type="text"
 							id="title"
-							value={this.state.title}
+							value={project ? project.title : this.state.title}
 							required
+							autoFocus
 							onChange={this.handleChange}
 						/>
 					</div>
@@ -86,7 +103,9 @@ class CreateProject extends Component {
 						<textarea
 							id="content"
 							required
-							value={this.state.content}
+							value={
+								project ? project.content : this.state.content
+							}
 							className="materialize-textarea"
 							onChange={this.handleChange}
 						></textarea>
@@ -96,7 +115,7 @@ class CreateProject extends Component {
 							type="submit"
 							className={`btn pink lighten-1 z-depth-0 ${this.state.creating}`}
 						>
-							Create
+							{project ? 'Update' : 'Create'}
 						</button>
 					</div>
 				</form>

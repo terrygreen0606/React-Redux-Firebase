@@ -7,7 +7,9 @@ const initialState = {
 	isDeleted: null,
 	isLoading: null,
 	firstSnapshot: null,
-	lastSnapshot: null
+	lastSnapshot: null,
+	updating: null,
+	isUpdated: null
 };
 
 const projectReducer = (state = initialState, action) => {
@@ -22,7 +24,9 @@ const projectReducer = (state = initialState, action) => {
 				isDeleted: null,
 				isLoading: null,
 				firstSnapshot: null,
-				lastSnapshot: null
+				lastSnapshot: null,
+				updating: null,
+				isUpdated: null
 			};
 
 		case 'CREATE_PROJECT':
@@ -36,6 +40,18 @@ const projectReducer = (state = initialState, action) => {
 
 		case 'CREATE_PROJECT_ERROR':
 			return { ...state, isCreated: false, projectError: action.payload };
+
+		case 'UPDATE_PROJECT':
+			return { ...state, isUpdated: true };
+
+		case 'UPDATING_PROJECT_START':
+			return { ...state, updating: true };
+
+		case 'UPDATING_PROJECT_END':
+			return { ...state, updating: false };
+
+		case 'UPDATE_PROJECT_ERROR':
+			return { ...state, isUpdated: false, projectError: action.payload };
 
 		case 'LOAD_PROJECTS_START':
 			return { ...state, isLoading: true };

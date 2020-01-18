@@ -53,6 +53,7 @@ const SignIn = () => {
 						type="email"
 						id="email"
 						required
+						autoFocus
 						onChange={handleChange}
 					/>
 				</div>

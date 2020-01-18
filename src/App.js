@@ -39,7 +39,11 @@ function App() {
 			</Router>
 		);
 	} else {
-		return <div>Loading...</div>;
+		return (
+			<div className="container center">
+				<p>Loading.......</p>
+			</div>
+		);
 	}
 }
 

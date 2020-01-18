@@ -30,6 +30,42 @@ export const createProject = project => async (
 	dispatch({ type: 'CREATING_PROJECT_END' });
 };
 
+export const updateProject = project => async (
+	dispatch,
+	getState,
+	{ getFirestore }
+) => {
+	// make async calls to database
+	const firestore = getFirestore();
+	const profile = getState().firebase.profile;
+	const authorId = getState().firebase.auth.uid;
+
+	dispatch({ type: 'UPDATING_PROJECT_START' });
+
+	try {
+		await firestore
+			.collection('projects')
+			.doc(project.id)
+			.update({
+				title: project.title,
+				content: project.content,
+				authorFirstName: profile.firstName,
+				authorLastName: profile.lastName,
+				authorId: authorId,
+				createdAt: new Date()
+			});
+
+		dispatch({ type: 'UPDATE_PROJECT' });
+	} catch (err) {
+		dispatch({
+			type: 'UPDATE_PROJECT_ERROR',
+			payload: err.message
+		});
+	}
+
+	dispatch({ type: 'UPDATING_PROJECT_END' });
+};
+
 export const deleteProject = projectId => (
 	dispatch,
 	getState,

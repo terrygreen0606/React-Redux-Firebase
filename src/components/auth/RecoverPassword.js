@@ -27,6 +27,7 @@ const RecoverPassword = () => {
 						id="email"
 						onChange={handleChange}
 						required
+						autoFocus
 					/>
 				</div>
 				<div className="input-field">

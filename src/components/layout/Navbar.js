@@ -31,7 +31,11 @@ const Navbar = props => {
 			<nav className="nav-extended grey darken-3">
 				<div className="container nav-wrapper">
 					<Link to="/" className="brand-logo">
-						My Logo
+						{props.userStatus === null
+							? 'Please log in'
+							: props.userStatus
+							? 'Admin'
+							: 'User'}
 					</Link>
 					<Link
 						to="#"

@@ -131,9 +131,11 @@ export const paginateProjects = (navigation, snapshot, limit) => async (
 
 		const documentSnapshots = await projectQuery.get();
 
+		// Start point of the query
 		const firstVisible = documentSnapshots.docs[0];
 		dispatch({ type: 'FIRST_PROJECT_SNAPSHOT', payload: firstVisible });
 
+		// End point of the query
 		const lastVisible =
 			documentSnapshots.docs[documentSnapshots.docs.length - 1];
 		dispatch({ type: 'LAST_PROJECT_SNAPSHOT', payload: lastVisible });

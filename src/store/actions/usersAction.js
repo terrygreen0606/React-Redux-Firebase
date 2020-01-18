@@ -68,4 +68,4 @@ export const deleteUser = userId => async (
 	dispatch({ type: 'DELETE_USER_END' });
 };
 
-export const clearUsers = () => ({ type: 'CLEAR_ALL' });
+export const clearUsers = () => ({ type: 'CLEAR_ALL_USERS' });

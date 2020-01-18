@@ -14,19 +14,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'CLEANUP_AUTH':
-			return {
-				authError: null,
-				isLogging: null,
-				emailVerified: {
-					...state.emailVerified,
-					loading: false,
-					error: null
-				},
-				recoverPassword: {
-					error: null,
-					loading: false
-				}
-			};
+			return { ...initialState };
 
 		case 'LOGIN_START':
 			return { ...state, isLogging: true };

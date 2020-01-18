@@ -13,19 +13,8 @@ const initialState = {
 
 const usersReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case 'CLEAR_ALL':
-			return {
-				users: [],
-				isLoading: null,
-				error: null,
-				isAdmin: undefined,
-				adminActionLoading: null,
-				adminMsg: null,
-				adminAdded: null,
-				deletingUser: null,
-				deletedMsg: null,
-				isDeleted: null
-			};
+		case 'CLEAR_ALL_USERS':
+			return { ...initialState };
 
 		// Adding Admin Role Section
 		case 'ISADMIN':

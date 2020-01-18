@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import {
 	createProject,
+	updateProject,
 	clearAllProjects
 } from '../../store/actions/projectActions';
 import WithUserStatus from '../hocs/WithUserStatus';
@@ -17,7 +18,8 @@ class CreateProject extends Component {
 			title: '',
 			content: '',
 			creating: '',
-			created: ''
+			created: '',
+			isUpdate: false
 		};
 	}
 
@@ -28,16 +30,41 @@ class CreateProject extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		this.setState({ created: '' });
-		this.props.createProject({
-			title: this.state.title,
-			content: this.state.content
-		});
+
+		// Check if this is loaded for creating or updating
+		if (this.state.isUpdate) {
+			this.props.updateProject({
+				id: this.props.location.state.project.id,
+				title: this.state.title,
+				content: this.state.content
+			});
+		} else {
+			this.props.createProject({
+				title: this.state.title,
+				content: this.state.content
+			});
+		}
 	};
 
+	componentDidMount() {
+		if (this.props.location.state.project) {
+			this.setState({
+				title: this.props.location.state.project.title,
+				content: this.props.location.state.project.content,
+				isUpdate: true
+			});
+		} else {
+			this.props.history.push('/projects');
+		}
+	}
+
 	componentDidUpdate(prevProps) {
-		if (prevProps.creating !== this.props.creating) {
+		if (
+			prevProps.creating !== this.props.creating ||
+			prevProps.updating !== this.props.updating
+		) {
 			this.setState({ creating: 'disabled' });
-			if (this.props.isCreated) {
+			if (this.props.isCreated || this.props.isUpdated) {
 				this.setState({
 					title: '',
 					content: '',
@@ -58,11 +85,6 @@ class CreateProject extends Component {
 		const project = this.props.location.state
 			? this.props.location.state.project
 			: null;
-		if (project) {
-			console.log(project.id);
-		} else {
-			console.log('no project');
-		}
 
 		const { projectError, isCreated, userStatus } = this.props;
 		if (userStatus === null) return <Redirect to="/signin" />;
@@ -90,7 +112,7 @@ class CreateProject extends Component {
 						<input
 							type="text"
 							id="title"
-							value={project ? project.title : this.state.title}
+							value={this.state.title}
 							required
 							autoFocus
 							onChange={this.handleChange}
@@ -103,9 +125,7 @@ class CreateProject extends Component {
 						<textarea
 							id="content"
 							required
-							value={
-								project ? project.content : this.state.content
-							}
+							value={this.state.content}
 							className="materialize-textarea"
 							onChange={this.handleChange}
 						></textarea>
@@ -126,6 +146,7 @@ class CreateProject extends Component {
 
 CreateProject.propTypes = {
 	createProject: PropTypes.func.isRequired,
+	updateProject: PropTypes.func.isRequired,
 	clearAllProjects: PropTypes.func.isRequired,
 	creating: PropTypes.bool,
 	isCreated: PropTypes.bool
@@ -134,9 +155,15 @@ CreateProject.propTypes = {
 const mapStateToProps = state => ({
 	projectError: state.project.projectError,
 	creating: state.project.creating,
-	isCreated: state.project.isCreated
+	isCreated: state.project.isCreated,
+	updating: state.project.updating,
+	isUpdated: state.project.isUpdated
 });
 
 export default WithUserStatus(
-	connect(mapStateToProps, { createProject, clearAllProjects })(CreateProject)
+	connect(mapStateToProps, {
+		createProject,
+		updateProject,
+		clearAllProjects
+	})(CreateProject)
 );

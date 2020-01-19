@@ -1,82 +1,82 @@
 html {
-    min-height: 100%;
+	min-height: 100%;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background: url(/img/background.jpg) no-repeat;
-    background-size: cover;
-    box-sizing: border-box;
-    background-position: center;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	background: url(/img/background.jpg) no-repeat;
+	background-size: cover;
+	box-sizing: border-box;
+	background-position: center;
 }
 
 form {
-    padding: 10px 30px;
-    margin-top: 60px;
+	padding: 10px 30px;
+	margin-top: 60px;
 }
 
 form button,
 form h5 {
-    margin: 20px 0;
+	margin: 20px 0;
 }
 
 input[type='text']:not(.browser-default):focus:not([readonly]),
 input[type='email']:not(.browser-default):focus:not([readonly]),
 input[type='password']:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-    border-color: #ec407a;
-    box-shadow: none;
+	border-color: #ec407a;
+	box-shadow: none;
 }
 
 .search-bar {
-    width: 50%;
-    margin-left: auto;
+	width: 50%;
+	margin-left: auto;
 }
 
 .project-actions {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 10px;
+	display: flex;
+	justify-content: space-evenly;
+	margin-bottom: 10px;
 }
 
 .project-actions i {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .project-actions i:nth-child(1) {
-    color: rgb(31, 207, 31);
+	color: rgb(31, 207, 31);
 }
 
 .project-actions i:nth-child(2) {
-    color: rgb(238, 77, 77);
+	color: rgb(238, 77, 77);
 }
 
 .project-actions i:nth-child(1):hover {
-    color: green;
+	color: green;
 }
 
 .project-actions i:nth-child(2):hover {
-    color: red;
+	color: red;
 }
 
 .pagination {
-    text-align: center;
+	text-align: center;
 }
 
 .pagination-buttons {
-    display: flex;
-    justify-content: space-evenly;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .project-summary:hover {
-    background-color: antiquewhite;
+	background-color: antiquewhite;
 }
 
 @media screen and (max-width: 1100px) {
-    .sidenav li>a.btn {
-        display: flex;
-        justify-content: center;
-    }
+	.sidenav li > a.btn {
+		display: flex;
+		justify-content: center;
+	}
 }

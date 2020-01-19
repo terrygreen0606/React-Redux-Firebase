@@ -46,6 +46,7 @@ class CreateProject extends Component {
 		}
 	};
 
+	// If it's from ProjectList component's update button....
 	componentDidMount() {
 		if (this.props.location.state.project) {
 			this.setState({

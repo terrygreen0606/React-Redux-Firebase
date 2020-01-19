@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
-import ReactTooltip from 'react-tooltip';
+
+import Userrow from './UserRow';
 import Pagination from 'react-js-pagination';
 
-import {
-	addAdminRole,
-	editUser,
-	deleteUser,
-	clearUsers
-} from '../../store/actions/usersAction';
+import { clearUsers } from '../../store/actions/usersAction';
 import WithUserStatus from '../hocs/WithUserStatus';
 
 const UsersList = props => {
-	// For Edit User Modal
-	// End Edit User Modal
 	const dispatch = useDispatch();
 	useFirestoreConnect({
 		collection: 'users'
@@ -50,59 +44,10 @@ const UsersList = props => {
 	const paginate = pageNumber => setCurrentPage(pageNumber);
 	// End Pagination
 
-	// Success or Error Message section
+	// Messages after actions
 	const adminMsg = useSelector(state => state.users.adminMsg);
+	const editedMsg = useSelector(state => state.users.editedMsg);
 	const deletedMsg = useSelector(state => state.users.deletedMsg);
-	const [adminStatusMsg, setAdminStatusMsg] = useState('');
-
-	// Check adding admin role action loading status
-	const adminActionLoading = useSelector(
-		state => state.users.adminActionLoading
-	);
-
-	// Check editing a user action loading status
-	// const editingUser = useSelector(state => state.user.editingUser)
-
-	// Check deleting a user action loading status
-	const deletingUser = useSelector(state => state.users.deletingUser);
-
-	// Get loading status and disable buttons
-	const [active, setActive] = useState('');
-	const [deleting, setDeleting] = useState('');
-	const [editing, setEditing] = useState('');
-	useEffect(() => {
-		adminActionLoading ? setActive('disabled') : setActive('');
-	}, [adminActionLoading]);
-
-	// useEffect(() => {
-	// 	editingUser ? setEditing('disabled') : setEditing('');
-	// }, [editingUser]);
-
-	useEffect(() => {
-		deletingUser ? setDeleting('disabled') : setDeleting('');
-	}, [deletingUser]);
-	// End Get loading status and disable buttons
-
-	// Functions
-	const addAdmin = email => {
-		props.userStatus
-			? dispatch(addAdminRole(email))
-			: setAdminStatusMsg('You are not an admin.');
-	};
-
-	const editThisUser = userData => {
-		// props.userStatus
-		// 	? dispatch(editUser(userData))
-		// 	: setAdminStatusMsg('You are not an admin.');
-		console.log('editing user');
-	};
-
-	const deleteThisUser = userId => {
-		props.userStatus
-			? dispatch(deleteUser(userId))
-			: setAdminStatusMsg('You are not an admin.');
-	};
-
 	// Filtering for user search
 	const handleChange = e => {
 		if (e.target.value === '') {
@@ -137,8 +82,8 @@ const UsersList = props => {
 			<div className="container">
 				<div className="red-text center">
 					{adminMsg ? <p>{adminMsg}</p> : null}
+					{editedMsg ? <p>{editedMsg}</p> : null}
 					{deletedMsg ? <p>{deletedMsg}</p> : null}
-					{adminStatusMsg ? <p>{adminStatusMsg}</p> : null}
 				</div>
 				<h4 className="center pink-text">Users List</h4>
 				<div className="input-field search-bar">
@@ -162,55 +107,7 @@ const UsersList = props => {
 					<tbody>
 						{currentItems &&
 							currentItems.map(user => {
-								return (
-									<tr key={user.id}>
-										<td>{user.firstName}</td>
-										<td>{user.lastName}</td>
-										<td>{user.email}</td>
-										<td>
-											<button
-												onClick={() =>
-													editThisUser(user.id)
-												}
-												data-tip="Edit this user"
-												data-type="warning"
-												className={`btn waves-effect waves-light ${editing}`}
-											>
-												<i className="material-icons">
-													edit
-												</i>
-											</button>
-											&nbsp;&nbsp;&nbsp;
-											<button
-												onClick={() =>
-													addAdmin(user.email)
-												}
-												data-tip="Add the admin role"
-												data-type="info"
-												className={`btn waves-effect waves-light ${active}`}
-											>
-												<i className="material-icons">
-													highlight
-												</i>
-											</button>
-											{/* Added Tooltip here because it can not be a direct child of a table element */}
-											<ReactTooltip effect="solid" />
-											&nbsp;&nbsp;&nbsp;
-											<button
-												data-tip="Delete this user"
-												data-type="error"
-												onClick={() =>
-													deleteThisUser(user.id)
-												}
-												className={`btn waves-effect waves-light ${deleting}`}
-											>
-												<i className="material-icons">
-													delete
-												</i>
-											</button>
-										</td>
-									</tr>
-								);
+								return <Userrow key={user.id} user={user} />;
 							})}
 					</tbody>
 				</table>

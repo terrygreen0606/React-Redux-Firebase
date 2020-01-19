@@ -19,6 +19,14 @@ const usersReducer = (state = initialState, action) => {
 		case 'CLEAR_ALL_USERS':
 			return { ...initialState };
 
+		case 'CLEAR_USER_MSGS':
+			return {
+				...state,
+				adminMsg: null,
+				editedMsg: null,
+				deletedMsg: null
+			};
+
 		// Adding Admin Role Section
 		case 'ISADMIN':
 			return { ...state, isAdmin: action.payload };
@@ -53,7 +61,7 @@ const usersReducer = (state = initialState, action) => {
 			return { ...state, editingUser: false };
 
 		case 'EDIT_USER_SUCCESS':
-			return { ...state, isEdited: true };
+			return { ...state, isEdited: true, editedMsg: action.payload };
 
 		case 'EDIT_USER_ERROR':
 			return { ...state, isEdited: false, editedMsg: action.payload };

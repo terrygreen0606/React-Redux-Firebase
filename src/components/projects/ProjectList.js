@@ -84,7 +84,6 @@ const ProjectList = props => {
 			<div className="red-text center">
 				{deleteError ? <p>{deleteError}</p> : null}
 			</div>
-			{/* if projects exist, display. if not, don't display */}
 			{projects.map(project => {
 				const ref = React.createRef();
 				return (

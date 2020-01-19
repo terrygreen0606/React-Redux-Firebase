@@ -86,21 +86,23 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 });
 
 // Edit the user
-exports.deleteUser = functions.https.onCall((data, context) => {
+exports.editUser = functions.https.onCall((data, context) => {
 	// check if the request is made by an admin
 	if (context.auth.token.admin !== true) {
-		return { message: 'Only Admins can delete other users.' };
+		return { message: 'Only Admins can update other users.' };
 	}
 
 	// Edit User
 	return admin
 		.auth()
-		.updateUser(data.userId, {})
+		.updateUser(data.id, {
+			displayName: `${data.firstName} ${data.lastName}`
+		})
 		.then(() => {
-			return { message: 'The user is deleted' };
+			return { message: 'The user is updated' };
 		})
 		.catch(err => {
-			return { message: `Error occurred deleting user: ${err.message}` };
+			return { message: `Error occurred updating user: ${err.message}` };
 		});
 });
 // Edit the user End

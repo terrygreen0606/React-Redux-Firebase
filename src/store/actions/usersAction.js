@@ -50,26 +50,22 @@ export const editUser = userData => async (
 	getState,
 	{ getFirebase, getFirestore }
 ) => {
-	const firebase = getFirebase();
 	const firestore = getFirestore();
 
 	dispatch({ type: 'EDIT_USER_START' });
 
 	try {
-		await firebase.admin
-			.auth()
-			.updateUser(userData.id, {
-				displayName: `${userData.firstName} ${userData.lastName}`
-			});
+		const editFunction = functions.httpsCallable('editUser');
+		const res = await editFunction(userData);
 		await firestore
-			.collection('user')
+			.collection('users')
 			.doc(userData.id)
-			.set({
+			.update({
 				firstName: userData.firstName,
 				lastName: userData.lastName,
 				initials: `${userData.firstName[0]}${userData.lastName[0]}`
 			});
-		dispatch({ type: 'EDIT_USER_SUCCESS' });
+		dispatch({ type: 'EDIT_USER_SUCCESS', payload: res.data.message });
 	} catch (err) {
 		dispatch({ type: 'EDIT_USER_ERROR', payload: err.message });
 	}
@@ -86,10 +82,10 @@ export const deleteUser = userId => async (
 	const firestore = getFirestore();
 	dispatch({ type: 'DELETE_USER_START' });
 
-	const deleteFunction = functions.httpsCallable('deleteUser');
 	try {
+		const deleteFunction = functions.httpsCallable('deleteUser');
 		const res = await deleteFunction({ userId });
-		firestore
+		await firestore
 			.collection('users')
 			.doc(userId)
 			.delete();
@@ -102,3 +98,5 @@ export const deleteUser = userId => async (
 };
 
 export const clearUsers = () => ({ type: 'CLEAR_ALL_USERS' });
+
+export const clearUserMsgs = () => ({ type: 'CLEAR_USER_MSGS' });

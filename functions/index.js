@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
+// Notification Part
 // Create notification collection
 const createNotification = notification => {
 	return admin
@@ -55,7 +56,10 @@ exports.userJoined = functions.auth.user().onCreate(user => {
 			return createNotification(notification);
 		});
 });
+// Notification Part End
 
+// User Auth Part
+// Add admin role to the user using custom claims. Add a custom claim 'admin' to true
 exports.addAdminRole = functions.https.onCall((data, context) => {
 	// check if the request is made by an admin
 	if (context.auth.token.admin !== true) {
@@ -81,6 +85,27 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 		});
 });
 
+// Edit the user
+exports.deleteUser = functions.https.onCall((data, context) => {
+	// check if the request is made by an admin
+	if (context.auth.token.admin !== true) {
+		return { message: 'Only Admins can delete other users.' };
+	}
+
+	// Edit User
+	return admin
+		.auth()
+		.updateUser(data.userId, {})
+		.then(() => {
+			return { message: 'The user is deleted' };
+		})
+		.catch(err => {
+			return { message: `Error occurred deleting user: ${err.message}` };
+		});
+});
+// Edit the user End
+
+// Delete user
 exports.deleteUser = functions.https.onCall((data, context) => {
 	// check if the request is made by an admin
 	if (context.auth.token.admin !== true) {
@@ -98,7 +123,9 @@ exports.deleteUser = functions.https.onCall((data, context) => {
 			return { message: `Error occurred deleting user: ${err.message}` };
 		});
 });
+// User Auth End
 
+// Testing httpRequest Part of firebase functions
 exports.helloWorld = functions.https.onRequest((request, response) => {
 	response.send('Hello from Firebase!');
 });

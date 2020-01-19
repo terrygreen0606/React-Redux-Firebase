@@ -6,6 +6,9 @@ const initialState = {
 	adminActionLoading: null,
 	adminMsg: null,
 	adminAdded: null,
+	editingUser: null,
+	editedMsg: null,
+	isEdited: null,
 	deletingUser: null,
 	deletedMsg: null,
 	isDeleted: null
@@ -41,6 +44,19 @@ const usersReducer = (state = initialState, action) => {
 				adminMsg: action.payload,
 				adminAdded: false
 			};
+
+		// Edit user section
+		case 'EDIT_USER_START':
+			return { ...state, editingUser: true };
+
+		case 'EDIT_USER_END':
+			return { ...state, editingUser: false };
+
+		case 'EDIT_USER_SUCCESS':
+			return { ...state, isEdited: true };
+
+		case 'EDIT_USER_ERROR':
+			return { ...state, isEdited: false, editedMsg: action.payload };
 
 		// Delete a user section
 		case 'DELETE_USER_START':

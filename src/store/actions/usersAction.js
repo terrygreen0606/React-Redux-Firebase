@@ -44,6 +44,39 @@ export const addAdminRole = email => async (
 	dispatch({ type: 'ADMIN_ACTION_END' });
 };
 
+// Edit a user
+export const editUser = userData => async (
+	dispatch,
+	getState,
+	{ getFirebase, getFirestore }
+) => {
+	const firebase = getFirebase();
+	const firestore = getFirestore();
+
+	dispatch({ type: 'EDIT_USER_START' });
+
+	try {
+		await firebase.admin
+			.auth()
+			.updateUser(userData.id, {
+				displayName: `${userData.firstName} ${userData.lastName}`
+			});
+		await firestore
+			.collection('user')
+			.doc(userData.id)
+			.set({
+				firstName: userData.firstName,
+				lastName: userData.lastName,
+				initials: `${userData.firstName[0]}${userData.lastName[0]}`
+			});
+		dispatch({ type: 'EDIT_USER_SUCCESS' });
+	} catch (err) {
+		dispatch({ type: 'EDIT_USER_ERROR', payload: err.message });
+	}
+
+	dispatch({ type: 'EDIT_USER_END' });
+};
+
 // Delete a user
 export const deleteUser = userId => async (
 	dispatch,

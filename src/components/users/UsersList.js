@@ -7,12 +7,15 @@ import Pagination from 'react-js-pagination';
 
 import {
 	addAdminRole,
+	editUser,
 	deleteUser,
 	clearUsers
 } from '../../store/actions/usersAction';
 import WithUserStatus from '../hocs/WithUserStatus';
 
 const UsersList = props => {
+	// For Edit User Modal
+	// End Edit User Modal
 	const dispatch = useDispatch();
 	useFirestoreConnect({
 		collection: 'users'
@@ -57,15 +60,23 @@ const UsersList = props => {
 		state => state.users.adminActionLoading
 	);
 
+	// Check editing a user action loading status
+	// const editingUser = useSelector(state => state.user.editingUser)
+
 	// Check deleting a user action loading status
 	const deletingUser = useSelector(state => state.users.deletingUser);
 
 	// Get loading status and disable buttons
 	const [active, setActive] = useState('');
 	const [deleting, setDeleting] = useState('');
+	const [editing, setEditing] = useState('');
 	useEffect(() => {
 		adminActionLoading ? setActive('disabled') : setActive('');
 	}, [adminActionLoading]);
+
+	// useEffect(() => {
+	// 	editingUser ? setEditing('disabled') : setEditing('');
+	// }, [editingUser]);
 
 	useEffect(() => {
 		deletingUser ? setDeleting('disabled') : setDeleting('');
@@ -77,6 +88,13 @@ const UsersList = props => {
 		props.userStatus
 			? dispatch(addAdminRole(email))
 			: setAdminStatusMsg('You are not an admin.');
+	};
+
+	const editThisUser = userData => {
+		// props.userStatus
+		// 	? dispatch(editUser(userData))
+		// 	: setAdminStatusMsg('You are not an admin.');
+		console.log('editing user');
 	};
 
 	const deleteThisUser = userId => {
@@ -152,6 +170,19 @@ const UsersList = props => {
 										<td>
 											<button
 												onClick={() =>
+													editThisUser(user.id)
+												}
+												data-tip="Edit this user"
+												data-type="warning"
+												className={`btn waves-effect waves-light ${editing}`}
+											>
+												<i className="material-icons">
+													edit
+												</i>
+											</button>
+											&nbsp;&nbsp;&nbsp;
+											<button
+												onClick={() =>
 													addAdmin(user.email)
 												}
 												data-tip="Add the admin role"
@@ -159,9 +190,10 @@ const UsersList = props => {
 												className={`btn waves-effect waves-light ${active}`}
 											>
 												<i className="material-icons">
-													create
+													highlight
 												</i>
 											</button>
+											{/* Added Tooltip here because it can not be a direct child of a table element */}
 											<ReactTooltip effect="solid" />
 											&nbsp;&nbsp;&nbsp;
 											<button

@@ -28,7 +28,7 @@ const Navbar = props => {
 
 	return (
 		<Fragment>
-			<nav className="nav-extended grey darken-3">
+			<nav className="nav-extended blue darken-3">
 				<div className="container nav-wrapper">
 					<Link to="/" className="brand-logo">
 						{props.userStatus === null

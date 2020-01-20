@@ -12,9 +12,12 @@ import ProjectSummary from './ProjectSummary';
 import WithUserStatus from '../hocs/WithUserStatus';
 
 const ProjectList = props => {
+	// Get Projects
+	const projects = useSelector(state => state.project.projects);
+
 	// Firebase Pagination
 	// Load Firebase every time the next button is clicked
-	const limit = 3;
+	const limit = 5;
 	const dispatch = useDispatch();
 
 	const firstSnapshot = useSelector(state => state.project.firstSnapshot);
@@ -30,10 +33,6 @@ const ProjectList = props => {
 			: dispatch(paginateProjects(navigation, lastSnapshot, limit));
 	};
 	// End Pagination
-
-	// Get projects
-	// const projects = useSelector(state => state.firestore.ordered.projects);     //This is for the case of using useFirestoreConnect plugin
-	const projects = useSelector(state => state.project.projects);
 
 	// Get the current userId
 	const userId = useSelector(state => state.firebase.auth.uid);
@@ -54,6 +53,7 @@ const ProjectList = props => {
 			setDeleteError('You are not the author of this project');
 		}
 	};
+
 	// Set delete success or error message
 	useEffect(() => {
 		isDeleted
@@ -84,55 +84,61 @@ const ProjectList = props => {
 			<div className="red-text center">
 				{deleteError ? <p>{deleteError}</p> : null}
 			</div>
-			{projects.map(project => {
-				const ref = React.createRef();
-				return (
-					<div
-						className="card z-depth-0 project-summary"
-						key={project.id}
-						ref={ref}
-					>
-						<Link to={`/projects/${project.id}`}>
-							<ProjectSummary project={project} />
-						</Link>
-						<ReactTooltip effect="solid" />
-						<div className="row">
-							<div className="col s3 offset-s9 project-actions">
-								{/* sending params in Link tag. Go and check CreateProject component */}
-								<Link
-									to={{
-										pathname: '/create',
-										state: { project }
-									}}
-								>
+			<div className="input-field">
+				<input id="search" type="text" className="validate" autoFocus />
+				<label htmlFor="search">Search Projects</label>
+			</div>
+			{projects &&
+				projects.map(project => {
+					const ref = React.createRef();
+					return (
+						<div
+							className="card z-depth-0 project-summary"
+							key={project.id}
+							ref={ref}
+						>
+							<Link to={`/projects/${project.id}`}>
+								<ProjectSummary project={project} />
+							</Link>
+							<ReactTooltip effect="solid" />
+							<div className="row">
+								<div className="col s3 offset-s9 project-actions">
+									{/* sending params in Link tag. Go and check CreateProject component */}
+									<Link
+										to={{
+											pathname: '/create',
+											state: { project }
+										}}
+									>
+										<i
+											className="material-icons"
+											data-tip="Edit"
+											data-type="info"
+										>
+											edit
+										</i>
+									</Link>
+
 									<i
 										className="material-icons"
-										data-tip="Edit"
-										data-type="info"
+										data-tip="Delete"
+										data-type="error"
+										onClick={() =>
+											deleteThisProject(
+												project.id,
+												project.authorId,
+												ref
+											)
+										}
 									>
-										edit
+										delete
 									</i>
-								</Link>
-
-								<i
-									className="material-icons"
-									data-tip="Delete"
-									data-type="error"
-									onClick={() =>
-										deleteThisProject(
-											project.id,
-											project.authorId,
-											ref
-										)
-									}
-								>
-									delete
-								</i>
+								</div>
 							</div>
 						</div>
-					</div>
-				);
-			})}
+					);
+				})}
+
 			<div className="pagination-buttons">
 				<button
 					className="btn waves-effect"

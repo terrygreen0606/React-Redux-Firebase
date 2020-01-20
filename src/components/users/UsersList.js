@@ -48,6 +48,7 @@ const UsersList = props => {
 	const adminMsg = useSelector(state => state.users.adminMsg);
 	const editedMsg = useSelector(state => state.users.editedMsg);
 	const deletedMsg = useSelector(state => state.users.deletedMsg);
+
 	// Filtering for user search
 	const handleChange = e => {
 		if (e.target.value === '') {

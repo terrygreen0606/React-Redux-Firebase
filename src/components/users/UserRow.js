@@ -98,7 +98,7 @@ const UserRow = props => {
 					onClick={editThisUser}
 					data-tip="Edit this user"
 					data-type="warning"
-					className={`btn waves-effect waves-light ${editing}`}
+					className={`btn waves-effect waves-light pulse ${editing}`}
 				>
 					<i className="material-icons">edit</i>
 				</button>
@@ -107,7 +107,7 @@ const UserRow = props => {
 					onClick={addAdmin}
 					data-tip="Add the admin role"
 					data-type="info"
-					className={`btn waves-effect waves-light ${adding}`}
+					className={`btn waves-effect waves-light green pulse ${adding}`}
 				>
 					<i className="material-icons">highlight</i>
 				</button>
@@ -118,7 +118,7 @@ const UserRow = props => {
 					data-tip="Delete this user"
 					data-type="error"
 					onClick={deleteThisUser}
-					className={`btn waves-effect waves-light ${deleting}`}
+					className={`btn waves-effect waves-light pink pulse ${deleting}`}
 				>
 					<i className="material-icons">delete</i>
 				</button>

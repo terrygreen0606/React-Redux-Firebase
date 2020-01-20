@@ -95,7 +95,7 @@ class CreateProject extends Component {
 					{isCreated ? <p>{this.state.created}</p> : null}
 				</div>
 				<form onSubmit={this.handleSubmit}>
-					<h5 className="grey-text text-darken-3">
+					<h5 className="white-text">
 						{project
 							? 'Update this project'
 							: 'Create a new Project'}

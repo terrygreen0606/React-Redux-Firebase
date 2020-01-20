@@ -44,7 +44,7 @@ const SignIn = () => {
 				{authError ? <p>{authError}</p> : null}
 			</div>
 			<form onSubmit={handleSubmit}>
-				<h5 className="grey-text text-darken-3">Log In</h5>
+				<h5 className="white-text">Log In</h5>
 				<div className="input-field">
 					<label htmlFor="email" data-error="Wrong email">
 						Email

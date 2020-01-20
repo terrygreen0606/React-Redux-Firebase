@@ -25,7 +25,13 @@ const ProjectList = props => {
 
 	useEffect(() => {
 		dispatch(paginateProjects('first', null, limit));
-	}, [dispatch, limit]);
+
+		// ComponentWillUnmount
+		return () => {
+			dispatch(clearAllProjects());
+			setDeleteError([]);
+		};
+	}, [dispatch]);
 
 	const paginate = navigation => {
 		navigation === 'prev'
@@ -53,6 +59,7 @@ const ProjectList = props => {
 			setDeleteError('You are not the author of this project');
 		}
 	};
+	// End Deleting project
 
 	// Set delete success or error message
 	useEffect(() => {
@@ -61,14 +68,6 @@ const ProjectList = props => {
 			: setDeleteError(deleteProjectError);
 	}, [isDeleted, deleteProjectError]);
 	//End Delete Project
-
-	// ComponentWillUnmount
-	useEffect(() => {
-		return () => {
-			dispatch(clearAllProjects());
-			setDeleteError([]);
-		};
-	}, [dispatch]);
 
 	const projectLoading = useSelector(state => state.project.isLoading);
 	if (projectLoading) {
@@ -88,6 +87,9 @@ const ProjectList = props => {
 				<input id="search" type="text" className="validate" autoFocus />
 				<label htmlFor="search">Search Projects</label>
 			</div>
+
+			<ReactTooltip effect="solid" />
+
 			{projects &&
 				projects.map(project => {
 					const ref = React.createRef();
@@ -100,7 +102,7 @@ const ProjectList = props => {
 							<Link to={`/projects/${project.id}`}>
 								<ProjectSummary project={project} />
 							</Link>
-							<ReactTooltip effect="solid" />
+
 							<div className="row">
 								<div className="col s3 offset-s9 project-actions">
 									{/* sending params in Link tag. Go and check CreateProject component */}
@@ -113,7 +115,7 @@ const ProjectList = props => {
 										<i
 											className="material-icons"
 											data-tip="Edit"
-											data-type="info"
+											data-class="edit-project"
 										>
 											edit
 										</i>
@@ -122,7 +124,7 @@ const ProjectList = props => {
 									<i
 										className="material-icons"
 										data-tip="Delete"
-										data-type="error"
+										data-class="delete-project"
 										onClick={() =>
 											deleteThisProject(
 												project.id,

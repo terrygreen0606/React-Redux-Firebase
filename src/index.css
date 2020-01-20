@@ -75,6 +75,31 @@ textarea.materialize-textarea:focus:not([readonly]) {
 	background-color: antiquewhite;
 }
 
+tr {
+	border-bottom-color: cyan;
+}
+
+/* ToolTip Classes */
+.user-list .add-tooltip {
+	background-color: #4caf50;
+}
+
+.user-list .edit-tooltip {
+	background-color: #26a69a;
+}
+
+.user-list .delete-tooltip {
+	background-color: #e91e63;
+}
+
+.project-list .edit-project {
+	background-color: green;
+}
+
+.project-list .delete-project {
+	background-color: red;
+}
+/* End ToolTip classes */
 @media screen and (max-width: 1100px) {
 	.sidenav li > a.btn {
 		display: flex;

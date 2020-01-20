@@ -80,7 +80,7 @@ const UsersList = props => {
 
 	if (users) {
 		return (
-			<div className="container">
+			<div className="container user-list">
 				<div className="red-text center">
 					{adminMsg ? <p>{adminMsg}</p> : null}
 					{editedMsg ? <p>{editedMsg}</p> : null}
@@ -96,7 +96,7 @@ const UsersList = props => {
 					/>
 					<label htmlFor="search">Search Users</label>
 				</div>
-				<table className="responsive-table">
+				<table className="responsive-table white-text text-darken-4">
 					<thead>
 						<tr>
 							<th>First Name</th>

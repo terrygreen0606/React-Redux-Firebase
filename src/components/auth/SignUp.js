@@ -45,7 +45,7 @@ const SignUp = () => {
 				{authError ? <p>{authError}</p> : null}
 			</div>
 			<form onSubmit={handleSubmit}>
-				<h5 className="grey-text text-darken-3">Sign Up</h5>
+				<h5 className="white-text">Sign Up</h5>
 				<div className="input-field">
 					<label htmlFor="text" data-error="Incorrect first name">
 						First Name

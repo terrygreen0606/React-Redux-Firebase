@@ -1,3 +1,4 @@
+// Create the project
 export const createProject = project => async (
 	dispatch,
 	getState,
@@ -30,6 +31,7 @@ export const createProject = project => async (
 	dispatch({ type: 'CREATING_PROJECT_END' });
 };
 
+// Update the project
 export const updateProject = project => async (
 	dispatch,
 	getState,
@@ -66,6 +68,7 @@ export const updateProject = project => async (
 	dispatch({ type: 'UPDATING_PROJECT_END' });
 };
 
+// Delete the project
 export const deleteProject = projectId => (
 	dispatch,
 	getState,
@@ -85,6 +88,7 @@ export const deleteProject = projectId => (
 		});
 };
 
+// Load the projects with Firebase paginate query function
 export const paginateProjects = (navigation, snapshot, limit) => async (
 	dispatch,
 	getState,
@@ -131,11 +135,24 @@ export const paginateProjects = (navigation, snapshot, limit) => async (
 
 		const documentSnapshots = await projectQuery.get();
 
-		// Start point of the query
+		/**
+        |--------------------------------------------------
+        | Example to show documentSnapshots
+        | projects: [
+        |    {title: 'AAAAA', content: 'example content'},
+        |    {title: 'BBBBB', content: 'example content'},
+        |    {title: 'CCCCC', content: 'example content'},
+        |   ]
+        | firstVisible = projects[first project(AAAAA)] => Start point of the query data
+        | lastVisible = projects[last project(CCCCC)] => End point of the query data
+        |--------------------------------------------------
+        */
+
+		// Start point of the query data
 		const firstVisible = documentSnapshots.docs[0];
 		dispatch({ type: 'FIRST_PROJECT_SNAPSHOT', payload: firstVisible });
 
-		// End point of the query
+		// End point of the query data
 		const lastVisible =
 			documentSnapshots.docs[documentSnapshots.docs.length - 1];
 		dispatch({ type: 'LAST_PROJECT_SNAPSHOT', payload: lastVisible });
@@ -153,4 +170,5 @@ export const paginateProjects = (navigation, snapshot, limit) => async (
 	dispatch({ type: 'LOAD_PROJECTS_END' });
 };
 
+// Remove and reset all the fields in the reducer
 export const clearAllProjects = () => ({ type: 'CLEAR_ALL_PROJECTS' });

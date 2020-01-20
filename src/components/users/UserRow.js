@@ -59,9 +59,6 @@ const UserRow = props => {
 			: console.log('you are not an admin');
 	};
 
-	// Status after editing user
-	const isEdited = useSelector(state => state.users.isEdited);
-
 	// ComponentDidUpdate
 	useEffect(() => {
 		if (!isRoleLoading) {

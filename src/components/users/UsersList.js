@@ -15,7 +15,7 @@ const UsersList = props => {
 		collection: 'users'
 	});
 
-	/**
+	/*
     |--------------------------------------------------
     | Users section
     | Check if the user is an admin

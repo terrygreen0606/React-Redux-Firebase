@@ -77,7 +77,7 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
 		})
 		.then(() => {
 			return {
-				message: `Success! ${data.email} has become an admin.`
+				message: `Success! ${data.email} now has become an admin.`
 			};
 		})
 		.catch(err => {
@@ -99,7 +99,7 @@ exports.editUser = functions.https.onCall((data, context) => {
 			displayName: `${data.firstName} ${data.lastName}`
 		})
 		.then(() => {
-			return { message: 'The user is updated' };
+			return { message: 'The user has been updated' };
 		})
 		.catch(err => {
 			return { message: `Error occurred updating user: ${err.message}` };
@@ -119,7 +119,7 @@ exports.deleteUser = functions.https.onCall((data, context) => {
 		.auth()
 		.deleteUser(data.userId)
 		.then(() => {
-			return { message: 'The user is deleted' };
+			return { message: 'The user has been deleted' };
 		})
 		.catch(err => {
 			return { message: `Error occurred deleting user: ${err.message}` };

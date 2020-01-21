@@ -111,6 +111,7 @@ class CreateProject extends Component {
 						<input
 							type="text"
 							id="title"
+							className="white-text"
 							value={this.state.title}
 							required
 							autoFocus
@@ -125,7 +126,7 @@ class CreateProject extends Component {
 							id="content"
 							required
 							value={this.state.content}
-							className="materialize-textarea"
+							className="materialize-textarea white-text"
 							onChange={this.handleChange}
 						></textarea>
 					</div>

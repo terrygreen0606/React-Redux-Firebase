@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
-
-import Userrow from './UserRow';
 import Pagination from 'react-js-pagination';
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 import { clearUsers } from '../../store/actions/usersAction';
 import WithUserStatus from '../hocs/WithUserStatus';
+import Userrow from './UserRow';
 
 const UsersList = props => {
 	const dispatch = useDispatch();
@@ -72,6 +72,18 @@ const UsersList = props => {
 		};
 	}, [dispatch]);
 
+	// Popup Message after updates
+	if (adminMsg) {
+		M.toast({ html: adminMsg, classes: 'admin-msg' });
+	}
+	if (editedMsg) {
+		M.toast({ html: editedMsg, classes: 'edited-msg' });
+	}
+	if (deletedMsg) {
+		M.toast({ html: deletedMsg, classes: 'deleted-msg' });
+	}
+	// End popup message
+
 	// If the user is not logged in, redirect to login page
 	if (props.userStatus === null) return <Redirect to="/signin" />;
 
@@ -81,18 +93,14 @@ const UsersList = props => {
 	if (users) {
 		return (
 			<div className="container user-list">
-				<div className="red-text center">
-					{adminMsg ? <p>{adminMsg}</p> : null}
-					{editedMsg ? <p>{editedMsg}</p> : null}
-					{deletedMsg ? <p>{deletedMsg}</p> : null}
-				</div>
 				<h4 className="center pink-text">Users List</h4>
 				<div className="input-field search-bar">
 					<input
 						id="search"
 						type="text"
-						className="validate"
+						className="validate white-text"
 						onChange={handleChange}
+						autoFocus
 					/>
 					<label htmlFor="search">Search Users</label>
 				</div>

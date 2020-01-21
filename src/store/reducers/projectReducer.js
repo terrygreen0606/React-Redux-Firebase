@@ -2,20 +2,28 @@ const initialState = {
 	projects: [],
 	projectError: null,
 	creating: null,
-	isCreated: null,
+	isCreated: false,
 	deleteProjectError: null,
-	isDeleted: null,
-	isLoading: null,
+	isDeleted: false,
+	isLoading: true,
 	firstSnapshot: null,
 	lastSnapshot: null,
-	updating: null,
-	isUpdated: null
+	updating: false,
+	isUpdated: false
 };
 
 const projectReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'CLEAR_ALL_PROJECTS':
 			return { ...initialState };
+
+		case 'CLEAR_PROJECTS_STATUS':
+			return {
+				...state,
+				isCreated: false,
+				isUpdated: false,
+				isDeleted: false
+			};
 
 		case 'CREATE_PROJECT':
 			return { ...state, isCreated: true };

@@ -1,17 +1,17 @@
 const initialState = {
 	users: [],
-	isLoading: null,
+	isLoading: true,
 	error: null,
 	isAdmin: undefined,
-	adminActionLoading: null,
+	adminActionLoading: false,
 	adminMsg: null,
-	adminAdded: null,
-	editingUser: null,
+	adminAdded: false,
+	editingUser: false,
 	editedMsg: null,
-	isEdited: null,
-	deletingUser: null,
+	isEdited: false,
+	deletingUser: false,
 	deletedMsg: null,
-	isDeleted: null
+	isDeleted: false
 };
 
 const usersReducer = (state = initialState, action) => {

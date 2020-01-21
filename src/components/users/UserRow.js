@@ -72,6 +72,7 @@ const UserRow = props => {
 		}
 	}, [isRoleLoading, isEditLoading, isDeleteLoading]);
 
+	// data-tip, data-class in button -> from ReactTooltip properties in UsersList component
 	return (
 		<tr>
 			<td>
@@ -104,6 +105,8 @@ const UserRow = props => {
 				>
 					<i className="material-icons">edit</i>
 				</button>
+				{/* Added Tooltip here because it can not be a direct child of a tr tag */}
+				<ReactTooltip effect="solid" />
 				&nbsp;&nbsp;&nbsp;
 				<button
 					onClick={addAdmin}
@@ -113,8 +116,6 @@ const UserRow = props => {
 				>
 					<i className="material-icons">highlight</i>
 				</button>
-				{/* Added Tooltip here because it can not be a direct child of a table element */}
-				<ReactTooltip effect="solid" />
 				&nbsp;&nbsp;&nbsp;
 				<button
 					data-tip="Delete this user"

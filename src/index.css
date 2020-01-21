@@ -1,108 +1,154 @@
 html {
-	min-height: 100%;
+    min-height: 100%;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
-	background-image: url(/img/background.jpg);
-	background-attachment: fixed;
-	background-size: cover;
-	box-sizing: border-box;
-	background-position: center;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-image: url(/img/background.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    box-sizing: border-box;
+    background-position: center;
 }
 
 form {
-	padding: 10px 30px;
-	margin-top: 60px;
+    padding: 10px 30px;
+    margin-top: 60px;
 }
 
 form button,
 form h5 {
-	margin: 20px 0;
+    margin: 20px 0;
 }
 
 input[type='text']:not(.browser-default):focus:not([readonly]),
 input[type='email']:not(.browser-default):focus:not([readonly]),
 input[type='password']:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-	border-color: #ec407a;
-	box-shadow: none;
+    border-color: #ec407a;
+    box-shadow: none;
 }
 
+/* Start Input, textarea autofill autocomplete color to transparent */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+    -webkit-animation: autofill 0s forwards;
+    animation: autofill 0s forwards;
+}
+
+@keyframes autofill {
+    100% {
+        background: transparent;
+        color: white;
+    }
+}
+
+@-webkit-keyframes autofill {
+    100% {
+        background: transparent;
+        color: white;
+    }
+}
+
+/* End autofill, autocomplete color */
+
 .search-bar {
-	width: 50%;
-	margin-left: auto;
+    width: 50%;
+    margin-left: auto;
 }
 
 .project-actions {
-	display: flex;
-	justify-content: space-evenly;
-	margin-bottom: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
 }
 
 .project-actions i {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .project-actions i:nth-child(1) {
-	color: rgb(31, 207, 31);
+    color: rgb(31, 207, 31);
 }
 
 .project-actions i:nth-child(2) {
-	color: rgb(238, 77, 77);
+    color: rgb(238, 77, 77);
 }
 
 .project-actions i:nth-child(1):hover {
-	color: green;
+    color: green;
 }
 
 .project-actions i:nth-child(2):hover {
-	color: red;
+    color: red;
 }
 
 .pagination {
-	text-align: center;
+    text-align: center;
 }
 
 .pagination-buttons {
-	display: flex;
-	justify-content: space-evenly;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .project-summary:hover {
-	background-color: antiquewhite;
+    background-color: antiquewhite;
 }
 
 tr {
-	border-bottom-color: cyan;
+    border-bottom-color: cyan;
 }
 
 /* ToolTip Classes */
 .user-list .add-tooltip {
-	background-color: #4caf50;
+    background-color: #4caf50;
 }
 
 .user-list .edit-tooltip {
-	background-color: #26a69a;
+    background-color: #26a69a;
 }
 
 .user-list .delete-tooltip {
-	background-color: #e91e63;
+    background-color: #e91e63;
 }
 
 .project-list .edit-project {
-	background-color: green;
+    background-color: green;
 }
 
 .project-list .delete-project {
-	background-color: red;
+    background-color: red;
 }
-/* End ToolTip classes */
+
+/* Toast Popup Message */
+.admin-msg {
+    background-color: #4caf50;
+}
+
+.edited-msg {
+    background-color: #26a69a;
+}
+
+.deleted-msg {
+    background-color: #e91e63;
+}
+
+.project-msg {
+    background-color: red;
+}
+
 @media screen and (max-width: 1100px) {
-	.sidenav li > a.btn {
-		display: flex;
-		justify-content: center;
-	}
+    .sidenav li>a.btn {
+        display: flex;
+        justify-content: center;
+    }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 import {
 	deleteProject,
@@ -47,14 +48,16 @@ const ProjectList = props => {
 	const deleteProjectError = useSelector(
 		state => state.project.deleteProjectError
 	);
-	const [deleteError, setDeleteError] = useState([]);
+	const [deleteError, setDeleteError] = useState(null);
 
 	// Delete Project from firestore and ui (using createRef to get the element and remove from ui)
 	const isDeleted = useSelector(state => state.project.isDeleted);
+
 	const deleteThisProject = (projectId, authorId, ref) => {
 		if (authorId === userId || props.userStatus) {
 			dispatch(deleteProject(projectId)); // Remove from Firebase
 			ref.current.remove(); // Remove from UI
+			ReactTooltip.hide(); // Hide the tooltip
 		} else {
 			setDeleteError('You are not the author of this project');
 		}
@@ -69,6 +72,15 @@ const ProjectList = props => {
 	}, [isDeleted, deleteProjectError]);
 	//End Delete Project
 
+	// Popup message after deleting action
+	useEffect(() => {
+		if (deleteError) {
+			// Dispatch clear projects status here
+			M.toast({ html: deleteError, classes: 'project-msg' });
+		}
+	}, [deleteError]);
+	// End popup message
+
 	const projectLoading = useSelector(state => state.project.isLoading);
 	if (projectLoading) {
 		return (
@@ -76,89 +88,91 @@ const ProjectList = props => {
 				<p>Loading projects...</p>
 			</div>
 		);
-	}
+	} else {
+		return (
+			<div className="project-list section">
+				<div className="input-field">
+					<input
+						id="search"
+						type="text"
+						className="validate white-text"
+						autoFocus
+					/>
+					<label htmlFor="search">Search Projects</label>
+				</div>
 
-	return (
-		<div className="project-list section">
-			<div className="red-text center">
-				{deleteError ? <p>{deleteError}</p> : null}
-			</div>
-			<div className="input-field">
-				<input id="search" type="text" className="validate" autoFocus />
-				<label htmlFor="search">Search Projects</label>
-			</div>
+				<ReactTooltip effect="solid" />
 
-			<ReactTooltip effect="solid" />
+				{projects &&
+					projects.map(project => {
+						const ref = React.createRef();
+						return (
+							<div
+								className="card z-depth-0 project-summary"
+								key={project.id}
+								ref={ref}
+							>
+								<Link to={`/projects/${project.id}`}>
+									<ProjectSummary project={project} />
+								</Link>
 
-			{projects &&
-				projects.map(project => {
-					const ref = React.createRef();
-					return (
-						<div
-							className="card z-depth-0 project-summary"
-							key={project.id}
-							ref={ref}
-						>
-							<Link to={`/projects/${project.id}`}>
-								<ProjectSummary project={project} />
-							</Link>
+								<div className="row">
+									<div className="col s3 offset-s9 project-actions">
+										{/* sending params in Link tag. Go and check CreateProject component */}
+										<Link
+											to={{
+												pathname: '/create',
+												state: { project }
+											}}
+										>
+											<i
+												className="material-icons"
+												data-tip="Edit"
+												data-class="edit-project"
+											>
+												edit
+											</i>
+										</Link>
 
-							<div className="row">
-								<div className="col s3 offset-s9 project-actions">
-									{/* sending params in Link tag. Go and check CreateProject component */}
-									<Link
-										to={{
-											pathname: '/create',
-											state: { project }
-										}}
-									>
 										<i
 											className="material-icons"
-											data-tip="Edit"
-											data-class="edit-project"
+											data-tip="Delete"
+											data-class="delete-project"
+											onClick={() =>
+												deleteThisProject(
+													project.id,
+													project.authorId,
+													ref
+												)
+											}
 										>
-											edit
+											delete
 										</i>
-									</Link>
-
-									<i
-										className="material-icons"
-										data-tip="Delete"
-										data-class="delete-project"
-										onClick={() =>
-											deleteThisProject(
-												project.id,
-												project.authorId,
-												ref
-											)
-										}
-									>
-										delete
-									</i>
+									</div>
 								</div>
 							</div>
-						</div>
-					);
-				})}
+						);
+					})}
 
-			<div className="pagination-buttons">
-				<button
-					className="btn waves-effect"
-					onClick={() => paginate('prev')}
-				>
-					<i className="material-icons left">chevron_left</i>
-					Prev
-				</button>
-				<button
-					className="btn waves-effect"
-					onClick={() => paginate('next')}
-				>
-					Next
-					<i className="material-icons right">chevron_right</i>
-				</button>
+				<div className="pagination-buttons">
+					<button
+						className="btn waves-effect"
+						onClick={() => paginate('prev')}
+					>
+						<i className="material-icons left">chevron_left</i>
+						Prev
+					</button>
+					<button
+						className="btn waves-effect"
+						onClick={() => paginate('next')}
+					>
+						Next
+						<i className="material-icons right">chevron_right</i>
+					</button>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	}
 };
 
 export default WithUserStatus(ProjectList);

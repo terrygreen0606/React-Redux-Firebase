@@ -69,23 +69,23 @@ export const updateProject = project => async (
 };
 
 // Delete the project
-export const deleteProject = projectId => (
+export const deleteProject = (projectId, ref, ReactTooltip) => async (
 	dispatch,
 	getState,
 	{ getFirestore }
 ) => {
 	// make async calls to database
 	const firestore = getFirestore();
-	firestore
-		.collection('projects')
-		.doc(projectId)
-		.delete()
-		.then(() => {
-			dispatch({ type: 'DELETE_PROJECT_SUCCESS' });
-		})
-		.catch(err => {
-			dispatch({ type: 'DELETE_PROJECT_ERROR', payload: err.message });
-		});
+
+	try {
+		await firestore
+			.collection('projects')
+			.doc(projectId)
+			.delete();
+		dispatch({ type: 'DELETE_PROJECT_SUCCESS' });
+	} catch (err) {
+		dispatch({ type: 'DELETE_PROJECT_ERROR', payload: err.message });
+	}
 };
 
 // Load the projects with Firebase paginate query function
@@ -172,3 +172,6 @@ export const paginateProjects = (navigation, snapshot, limit) => async (
 
 // Remove and reset all the fields in the reducer
 export const clearAllProjects = () => ({ type: 'CLEAR_ALL_PROJECTS' });
+
+// Remove all actions' status like isCreating, isUpdating and isDeleting
+export const clearProjectsStatus = () => ({ type: 'CLEAR_PROJECTS_STATUS' });

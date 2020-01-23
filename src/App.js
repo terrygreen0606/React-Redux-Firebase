@@ -28,6 +28,7 @@ function App() {
 							component={ProjectDetails}
 						/>
 						<Route path="/create" component={CreateProject} />
+						<Route path="/update" component={CreateProject} />
 
 						<Route path="/signin" component={SignIn} />
 						<Route path="/signup" component={SignUp} />

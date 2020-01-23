@@ -15,7 +15,7 @@ const initialState = {
 const projectReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'CLEAR_ALL_PROJECTS':
-			return { ...initialState };
+			return initialState;
 
 		case 'CLEAR_PROJECTS_STATUS':
 			return {
@@ -53,10 +53,7 @@ const projectReducer = (state = initialState, action) => {
 			return { ...state, isLoading: true };
 
 		case 'LOAD_PROJECTS_SUCCESS':
-			return {
-				...state,
-				projects: [...state.projects, ...action.payload]
-			};
+			return { ...state, projects: action.payload };
 
 		case 'LOAD_PROJECTS_ERROR':
 			return { ...state, projectError: action.payload };

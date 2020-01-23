@@ -50,19 +50,27 @@ const UsersList = props => {
 	const deletedMsg = useSelector(state => state.users.deletedMsg);
 
 	// Filtering for user search
+	let timeout = null;
 	const handleChange = e => {
-		if (e.target.value === '') {
-			setUsers(loadedUsers);
-		} else {
-			const filtered = users.filter(
-				user => user.firstName === e.target.value
-			);
-			if (filtered.length !== 0) {
-				setUsers(filtered);
-			} else {
+		clearTimeout(timeout);
+
+		// To use event in a callback, e.persist() should have to be called
+		e.persist();
+
+		timeout = setTimeout(() => {
+			// Callback
+			const filtered = users.filter(user => {
+				return (
+					user.firstName === e.target.value.trim() ||
+					user.lastName === e.target.value.trim()
+				);
+			});
+			if (e.target.value === '') {
 				setUsers(loadedUsers);
+			} else {
+				setUsers(filtered);
 			}
-		}
+		}, 1000);
 	};
 
 	// ComponentWillUnmount

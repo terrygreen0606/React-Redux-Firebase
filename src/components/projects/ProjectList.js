@@ -81,6 +81,24 @@ const ProjectList = props => {
 	}, [deleteError]);
 	// End popup message
 
+	// Filtering for project search
+	let timeout = null;
+	const handleChange = e => {
+		clearTimeout(timeout);
+
+		// To use event in a callback, e.persist() should have to be called
+		e.persist();
+
+		timeout = setTimeout(() => {
+			// Callback
+			const filtered = projects.filter(project => {
+				return project.title === e.target.value.trim();
+			});
+			console.log(filtered);
+		}, 1000);
+	};
+	// End filter search
+
 	const projectLoading = useSelector(state => state.project.isLoading);
 	if (projectLoading) {
 		return (
@@ -97,6 +115,7 @@ const ProjectList = props => {
 						type="text"
 						className="validate white-text"
 						autoFocus
+						onChange={handleChange}
 					/>
 					<label htmlFor="search">Search Projects</label>
 				</div>
@@ -121,7 +140,7 @@ const ProjectList = props => {
 										{/* sending params in Link tag. Go and check CreateProject component */}
 										<Link
 											to={{
-												pathname: '/create',
+												pathname: '/update',
 												state: { project }
 											}}
 										>

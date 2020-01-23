@@ -19,7 +19,8 @@ class CreateProject extends Component {
 			content: '',
 			creating: '',
 			created: '',
-			isUpdate: false
+			isUpdate: false,
+			labelActive: null
 		};
 	}
 
@@ -46,13 +47,14 @@ class CreateProject extends Component {
 		}
 	};
 
-	// If it's from ProjectList component's update button....
 	componentDidMount() {
+		// If it's from ProjectList component's update button....
 		if (this.props.location.state) {
 			this.setState({
 				title: this.props.location.state.project.title,
 				content: this.props.location.state.project.content,
-				isUpdate: true
+				isUpdate: true,
+				labelActive: 'active'
 			});
 		}
 	}
@@ -119,7 +121,11 @@ class CreateProject extends Component {
 						/>
 					</div>
 					<div className="input-field">
-						<label htmlFor="content" data-error="Wrong Content">
+						<label
+							htmlFor="content"
+							data-error="Wrong Content"
+							className={this.state.labelActive}
+						>
 							Content
 						</label>
 						<textarea
@@ -160,10 +166,12 @@ const mapStateToProps = state => ({
 	isUpdated: state.project.isUpdated
 });
 
+const mapDispatchToProps = {
+	createProject,
+	updateProject,
+	clearAllProjects
+};
+
 export default WithUserStatus(
-	connect(mapStateToProps, {
-		createProject,
-		updateProject,
-		clearAllProjects
-	})(CreateProject)
+	connect(mapStateToProps, mapDispatchToProps)(CreateProject)
 );

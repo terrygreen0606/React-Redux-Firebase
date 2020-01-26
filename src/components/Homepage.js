@@ -3,7 +3,9 @@ import React from 'react';
 const Homepage = () => {
 	return (
 		<div>
-			<p>This is the homepage</p>
+			<p>New Element using some API</p>
+			<p>API data</p>
+			<p>API content</p>
 		</div>
 	);
 };

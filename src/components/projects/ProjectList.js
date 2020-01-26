@@ -81,24 +81,6 @@ const ProjectList = props => {
 	}, [deleteError]);
 	// End popup message
 
-	// Filtering for project search
-	let timeout = null;
-	const handleChange = e => {
-		clearTimeout(timeout);
-
-		// To use event in a callback, e.persist() should have to be called
-		e.persist();
-
-		timeout = setTimeout(() => {
-			// Callback
-			const filtered = projects.filter(project => {
-				return project.title === e.target.value.trim();
-			});
-			console.log(filtered);
-		}, 1000);
-	};
-	// End filter search
-
 	const projectLoading = useSelector(state => state.project.isLoading);
 	if (projectLoading) {
 		return (
@@ -109,17 +91,6 @@ const ProjectList = props => {
 	} else {
 		return (
 			<div className="project-list section">
-				<div className="input-field">
-					<input
-						id="search"
-						type="text"
-						className="validate white-text"
-						autoFocus
-						onChange={handleChange}
-					/>
-					<label htmlFor="search">Search Projects</label>
-				</div>
-
 				<ReactTooltip effect="solid" />
 
 				{projects &&
@@ -127,7 +98,7 @@ const ProjectList = props => {
 						const ref = React.createRef();
 						return (
 							<div
-								className="card z-depth-0 project-summary"
+								className="card project-summary hoverable"
 								key={project.id}
 								ref={ref}
 							>

@@ -101,18 +101,18 @@ const UsersList = props => {
 	if (users) {
 		return (
 			<div className="container user-list">
-				<h4 className="center pink-text">Users List</h4>
+				<h4 className="center">Users List</h4>
 				<div className="input-field search-bar">
 					<input
 						id="search"
 						type="text"
-						className="validate white-text"
+						className="validate"
 						onChange={handleChange}
 						autoFocus
 					/>
 					<label htmlFor="search">Search Users</label>
 				</div>
-				<table className="responsive-table white-text text-darken-4">
+				<table className="responsive-table">
 					<thead>
 						<tr>
 							<th>First Name</th>

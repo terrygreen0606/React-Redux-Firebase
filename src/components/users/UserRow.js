@@ -81,7 +81,6 @@ const UserRow = props => {
 					type="text"
 					value={currentUser.firstName}
 					name="firstName"
-					className="white-text text-darken-4"
 					onChange={handleChange}
 				/>
 			</td>
@@ -91,7 +90,6 @@ const UserRow = props => {
 					type="text"
 					value={currentUser.lastName}
 					name="lastName"
-					className="white-text text-darken-4"
 					onChange={handleChange}
 				/>
 			</td>

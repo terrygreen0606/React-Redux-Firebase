@@ -97,23 +97,16 @@ class CreateProject extends Component {
 					{isCreated ? <p>{this.state.created}</p> : null}
 				</div>
 				<form onSubmit={this.handleSubmit}>
-					<h5 className="white-text">
+					<h5>
 						{project
 							? 'Update this project'
 							: 'Create a new Project'}
 					</h5>
 					<div className="input-field">
-						<label
-							htmlFor="title"
-							data-error="Wrong Title"
-							data-success="right"
-						>
-							Title
-						</label>
+						<label htmlFor="title">Title</label>
 						<input
 							type="text"
 							id="title"
-							className="white-text"
 							value={this.state.title}
 							required
 							autoFocus
@@ -123,7 +116,6 @@ class CreateProject extends Component {
 					<div className="input-field">
 						<label
 							htmlFor="content"
-							data-error="Wrong Content"
 							className={this.state.labelActive}
 						>
 							Content
@@ -132,7 +124,7 @@ class CreateProject extends Component {
 							id="content"
 							required
 							value={this.state.content}
-							className="materialize-textarea white-text"
+							className="materialize-textarea"
 							onChange={this.handleChange}
 						></textarea>
 					</div>

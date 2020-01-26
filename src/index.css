@@ -6,7 +6,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background-image: url(/img/background.jpg);
+    /* background-image: url(/img/background.jpg); */
+    /* background-color: #F0F0F0; */
     background-attachment: fixed;
     background-size: cover;
     box-sizing: border-box;
@@ -47,14 +48,14 @@ textarea:-webkit-autofill:active {
 @keyframes autofill {
     100% {
         background: transparent;
-        color: white;
+        color: black;
     }
 }
 
 @-webkit-keyframes autofill {
     100% {
         background: transparent;
-        color: white;
+        color: black;
     }
 }
 
@@ -100,12 +101,8 @@ textarea:-webkit-autofill:active {
     justify-content: space-evenly;
 }
 
-.project-summary:hover {
-    background-color: antiquewhite;
-}
-
 tr {
-    border-bottom-color: cyan;
+    border-bottom-color: #DEDEDE;
 }
 
 /* ToolTip Classes */
@@ -144,6 +141,15 @@ tr {
 
 .project-msg {
     background-color: red;
+}
+
+/* Product cart */
+.cart-button {
+    width: 100%;
+}
+
+.img-height {
+    height: 300px;
 }
 
 @media screen and (max-width: 1100px) {

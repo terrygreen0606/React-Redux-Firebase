@@ -28,7 +28,7 @@ function App() {
 						<Route exact path="/projects" component={Dashboard} />
 						<Route
 							exact
-							path="/projects/:id"
+							path="/projects/details"
 							component={ProjectDetails}
 						/>
 						<Route exact path="/create" component={CreateProject} />

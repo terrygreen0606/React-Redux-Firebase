@@ -60,6 +60,9 @@ textarea:-webkit-autofill:active {
 }
 
 /* End autofill, autocomplete color */
+.padding-container {
+    padding: 20px 0;
+}
 
 .search-bar {
     width: 50%;
@@ -150,6 +153,26 @@ tr {
 
 .img-height {
     height: 300px;
+}
+
+.cart-btn {
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.cart-icon {
+    width: 20px;
+}
+
+.one-line-align {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 15px 0;
+}
+
+.cursor {
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1100px) {

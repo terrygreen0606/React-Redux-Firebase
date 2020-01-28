@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
 import CartDetails from './CartDetails';
+import PaypalBtn from '../layout/PaypalButton';
 
 const Cart = props => {
 	// Get products in Cart
@@ -34,17 +36,18 @@ const Cart = props => {
 							);
 						})}
 					</div>
-					<div className="col s12 m4 card">
+					<div className="col s12 m4 right-aligned">
 						<h4>Checkout</h4>
 						<p>Total Price : ${sum}</p>
+						<PaypalBtn total={sum} />
 					</div>
 				</div>
 			</div>
 		);
 	} else {
 		return (
-			<div className="container">
-				There are no added products in the cart
+			<div className="container center padding-container">
+				There are no products to display in the cart, now.
 			</div>
 		);
 	}

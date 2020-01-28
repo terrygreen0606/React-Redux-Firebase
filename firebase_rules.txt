@@ -1,14 +1,28 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // This rule allows anyone on the internet to view, edit, and delete
+    // all data in your Firestore database. It is useful for getting
+    // started, but it is configured to expire after 30 days because it
+    // leaves your app open to attackers. At that time, all client
+    // requests to your Firestore database will be denied.
+    //
+    // Make sure to write security rules for your app before that time, or else
+    // your app will lose access to your Firestore database
+    // match /{document=**} {
+    //   allow read, write;
+    // }
     match /users/{userId} {
       allow create;
       allow read: if request.auth.uid != null;
-      // request.auth.token.admin is a CustomUserClaim I defined.
       allow write: if request.auth.uid == userId || request.auth.token.admin == true;
     }
+     match /products/{product} {
+      allow read, write;
+    }  
     match /projects/{project} {
-      allow read, write: if request.auth.uid != null;
+      allow read, write: if request.auth.uid != null || request.auth.token.admin == true;
     }  
     match /notifications/{item} {
     	allow read: if request.auth.uid != null;

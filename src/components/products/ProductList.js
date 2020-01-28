@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 
-const ProductList = () => {
+import WithUserStatus from '../hocs/WithUserStatus';
+import AddProduct from './AddProduct';
+
+const ProductList = props => {
+	const { userStatus } = props;
 	// Get products from firestore
 	useFirestoreConnect({
 		collection: 'products'
@@ -53,6 +57,7 @@ const ProductList = () => {
 						</div>
 					</div>
 				</div>
+				{userStatus ? <AddProduct /> : null}
 				<div className="row">
 					{products &&
 						products.map(product => {
@@ -86,7 +91,7 @@ const ProductList = () => {
 										>
 											<div className="card-content grey-text text-darken-3">
 												<span className="card-title">
-													{product.title}
+													{product.name}
 												</span>
 												<span className="card-title">
 													${product.price}
@@ -112,4 +117,4 @@ const ProductList = () => {
 	}
 };
 
-export default ProductList;
+export default WithUserStatus(ProductList);

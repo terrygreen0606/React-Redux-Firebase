@@ -11,10 +11,12 @@ import firebase from '../../config/firebase';
 import authReducer from './authReducer';
 import projectReducer from './projectReducer';
 import usersReducer from './usersReducer';
+import productReducer from './productReducer';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
 	project: projectReducer,
+	product: productReducer,
 	users: usersReducer,
 	firestore: firestoreReducer,
 	firebase: firebaseReducer

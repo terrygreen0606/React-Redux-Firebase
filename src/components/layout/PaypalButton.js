@@ -18,6 +18,7 @@ export default class PaypalBtn extends React.Component {
 		let env = 'sandbox';
 		let currency = 'USD';
 		let total = this.props.total;
+
 		const client = {
 			sandbox:
 				'AXpVhURwRJJFWJfUZeU4WuwQ3igs8mHds6P6kxZ6QYHgrbAE695r39r7tkn2yM7Lt6TlLtW_NosNLo52',

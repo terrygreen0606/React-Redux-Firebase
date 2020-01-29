@@ -30,7 +30,7 @@ const CartDetails = ({ product, sumTotal }) => {
 			</div>
 			<div className="col s12 m6">
 				<div className="one-line-align">
-					<h5>{cartProduct.title}</h5>
+					<h5>{cartProduct.name}</h5>
 					<h5>${cartProduct.price}</h5>
 				</div>
 				<div className="one-line-align">

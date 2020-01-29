@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import CartDetails from './CartDetails';
 import PaypalBtn from '../layout/PaypalButton';
+import { clearCart } from '../../store/actions/cartActions';
 
-const Cart = props => {
+const Cart = () => {
+	const dispatch = useDispatch();
 	// Get products in Cart
-	const productsInCart = props.location.state;
+	const productsInCart = useSelector(state => state.cart.cartProducts);
 
 	const [sum, setSum] = useState(0);
 
@@ -18,6 +21,12 @@ const Cart = props => {
 	useEffect(() => {
 		sumTotal();
 	});
+
+	// Disable PaypalBtn according to the checkbox
+	const [paypalDisabled, setPaypal] = useState('paypal-disabled');
+	const handleChange = e => {
+		e.target.checked ? setPaypal('') : setPaypal('paypal-disabled');
+	};
 
 	if (productsInCart.length !== 0) {
 		return (
@@ -38,8 +47,29 @@ const Cart = props => {
 					</div>
 					<div className="col s12 m4 right-aligned">
 						<h4>Checkout</h4>
-						<p>Total Price : ${sum}</p>
-						<PaypalBtn total={sum} />
+						<h5>Total Price : ${sum}</h5>
+						<button
+							className="btn waves-effect"
+							onClick={() => dispatch(clearCart())}
+						>
+							Clear Cart
+						</button>
+						<div className="input-field">
+							<label className="pos-rel">
+								<input
+									type="checkbox"
+									className="filled-in"
+									onChange={handleChange}
+								/>
+								<span>
+									I agree to the terms of policy and
+									conditions
+								</span>
+							</label>
+						</div>
+						<div className={`${paypalDisabled}`}>
+							<PaypalBtn total={sum} />
+						</div>
 					</div>
 				</div>
 			</div>

@@ -12,11 +12,13 @@ import authReducer from './authReducer';
 import projectReducer from './projectReducer';
 import usersReducer from './usersReducer';
 import productReducer from './productReducer';
+import cartReducer from './cartReducer';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
 	project: projectReducer,
 	product: productReducer,
+	cart: cartReducer,
 	users: usersReducer,
 	firestore: firestoreReducer,
 	firebase: firebaseReducer

@@ -69,7 +69,7 @@ export const updateProject = project => async (
 };
 
 // Delete the project
-export const deleteProject = (projectId, ref, ReactTooltip) => async (
+export const deleteProject = projectId => async (
 	dispatch,
 	getState,
 	{ getFirestore }

@@ -61,7 +61,7 @@ textarea:-webkit-autofill:active {
 
 /* End autofill, autocomplete color */
 .padding-container {
-    padding: 20px 0;
+    padding: 30px 0;
 }
 
 .search-bar {
@@ -173,6 +173,15 @@ tr {
 
 .cursor {
     cursor: pointer;
+}
+
+.cart .pos-rel {
+    position: relative;
+}
+
+.cart .paypal-disabled {
+    pointer-events: none;
+    opacity: 0.6;
 }
 
 @media screen and (max-width: 1100px) {

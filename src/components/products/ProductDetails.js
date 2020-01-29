@@ -7,7 +7,7 @@ const ProductDetails = props => {
 	if (product) {
 		return (
 			<div className="container product-details">
-				<h4>{product.title}</h4>
+				<h4>{product.name}</h4>
 				<img src={product.image_url} alt="" />
 
 				<h5>${product.price}</h5>

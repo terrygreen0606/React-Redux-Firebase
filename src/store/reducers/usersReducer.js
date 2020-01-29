@@ -89,23 +89,6 @@ const usersReducer = (state = initialState, action) => {
 				isDeleted: false
 			};
 
-		// User section
-		case 'USERS_LOADING_START':
-			return { ...state, isLoading: true };
-
-		case 'USER_LOAD_SUCCESS':
-			return {
-				...state,
-				users: action.payload,
-				isLoading: false,
-				error: false
-			};
-
-		case 'USER_LOADING_END':
-			return { ...state, isLoading: false, error: false };
-
-		case 'USER_LOAD_ERROR':
-			return { ...state, isLoading: false, error: action.payload };
 		default:
 			return state;
 	}

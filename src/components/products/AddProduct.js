@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import uuid from 'uuid/v1';
 
 import { storage } from '../../config/firebase';
-import { addNewProduct } from '../../store/actions/productActions';
+import {
+	addNewProduct,
+	clearAllProducts
+} from '../../store/actions/productActions';
 
 const AddProduct = () => {
 	const ref = React.createRef();
 	const dispatch = useDispatch();
+	const isAdded = useSelector(state => state.product.isAdded);
+
 	// Initialize collapsible/accordion menu
 	useEffect(() => {
 		M.Collapsible.init(ref.current, {});
@@ -21,9 +26,11 @@ const AddProduct = () => {
 	};
 
 	const [newProduct, setNewProduct] = useState(inputData);
-	const [uploaded, setUploaded] = useState(null);
+	const [uploaded, setUploaded] = useState({});
 	const [progress, setProgress] = useState(0);
+	const [uploadBtn, setUploadBtn] = useState('');
 
+	// Handle input value changes
 	const handleChange = e => {
 		setNewProduct({
 			...newProduct,
@@ -34,12 +41,15 @@ const AddProduct = () => {
 		});
 	};
 
+	// Handle input type files upload changes
 	const handleUpload = e => {
 		setUploaded(e.target.files[0]);
 	};
 
+	// Submit a form to add a new product after uploading images on firebase storage
 	const handleSubmit = e => {
 		e.preventDefault();
+		setUploadBtn('disabled');
 		const imageName = uuid();
 
 		const uploadImage = storage.ref(`images/${imageName}`).put(uploaded);
@@ -47,6 +57,7 @@ const AddProduct = () => {
 		uploadImage.on(
 			'state_changed',
 			snapshot => {
+				// Set progress bar percentage to show upload progress
 				const progress = Math.round(
 					(snapshot.bytesTransferred / snapshot.totalBytes) * 100
 				);
@@ -63,12 +74,37 @@ const AddProduct = () => {
 					.then(url => {
 						// Dispatch an action to add a new product.
 						dispatch(
-							addNewProduct({ ...newProduct, image_url: url })
+							addNewProduct({
+								...newProduct,
+								image_url: url,
+								image_name: imageName
+							})
 						);
+
+						// Set progress bar to 0% after 1.5 seconds
+						setTimeout(() => {
+							setProgress(0);
+						}, 1500);
 					});
 			}
 		);
 	};
+
+	// Clear input values after adding new product
+	useEffect(() => {
+		if (isAdded) {
+			setUploadBtn('');
+			document.getElementById('add-new-product').reset();
+			M.toast({ html: 'New Product Added', classes: 'admin-msg' });
+		}
+	}, [isAdded]);
+
+	// Component will unmount
+	useEffect(() => {
+		return () => {
+			dispatch(clearAllProducts());
+		};
+	}, [dispatch]);
 
 	return (
 		<div className="row">
@@ -79,7 +115,11 @@ const AddProduct = () => {
 						Click me to add a new product.
 					</div>
 					<div className="collapsible-body">
-						<form className="col s12" onSubmit={handleSubmit}>
+						<form
+							className="col s12"
+							onSubmit={handleSubmit}
+							id="add-new-product"
+						>
 							<div className="input-field col s6">
 								<input
 									type="text"
@@ -111,12 +151,6 @@ const AddProduct = () => {
 								></textarea>
 							</div>
 							<div className="input-field col s12">
-								<div className="progress">
-									<div
-										className="determinate"
-										style={{ width: `${progress}%` }}
-									></div>
-								</div>
 								<input
 									type="file"
 									id="image"
@@ -124,11 +158,17 @@ const AddProduct = () => {
 									required
 									onChange={handleUpload}
 								/>
+								<div className="progress">
+									<div
+										className="determinate"
+										style={{ width: `${progress}%` }}
+									></div>
+								</div>
 							</div>
 							<div className="input-field right">
 								<button
 									type="submit"
-									className={`btn pink lighten-1 z-depth-0`}
+									className={`btn pink lighten-1 z-depth-0 ${uploadBtn}`}
 								>
 									Add new Product
 								</button>

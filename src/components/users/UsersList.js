@@ -128,21 +128,31 @@ const UsersList = props => {
 							})}
 					</tbody>
 				</table>
-				{users && (
-					<Pagination
-						activePage={currentPage}
-						itemsCountPerPage={itemsPerPage}
-						totalItemsCount={users.length}
-						pageRangeDisplayed={5}
-						onChange={paginate}
-					/>
-				)}
+				<Pagination
+					activePage={currentPage}
+					itemsCountPerPage={itemsPerPage}
+					totalItemsCount={users.length}
+					pageRangeDisplayed={5}
+					onChange={paginate}
+				/>
 			</div>
 		);
 	} else {
 		return (
 			<div className="container center">
-				<p>Loading Users...</p>
+				<div className="preloader-wrapper active">
+					<div className="spinner-layer spinner-blue-only">
+						<div className="circle-clipper left">
+							<div className="circle"></div>
+						</div>
+						<div className="gap-patch">
+							<div className="circle"></div>
+						</div>
+						<div className="circle-clipper right">
+							<div className="circle"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		);
 	}

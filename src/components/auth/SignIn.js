@@ -39,12 +39,12 @@ const SignIn = () => {
 	if (auth.uid) return <Redirect to="/projects" />;
 
 	return (
-		<div className="container">
+		<div className="container white product-details">
 			<div className="red-text center">
 				{authError ? <p>{authError}</p> : null}
 			</div>
 			<form onSubmit={handleSubmit}>
-				<h5 className="white-text">Log In</h5>
+				<h5>Log In</h5>
 				<div className="input-field">
 					<label htmlFor="email" data-error="Wrong email">
 						Email
@@ -68,7 +68,7 @@ const SignIn = () => {
 						onChange={handleChange}
 					/>
 				</div>
-				<div className="input-field center">
+				<div className="center">
 					<button
 						className={`btn pink lighten-1 z-depth-0 ${loggingStatus}`}
 					>
@@ -76,11 +76,12 @@ const SignIn = () => {
 					</button>
 				</div>
 			</form>
-			<div className="input-field center">
+			<div className="center">
 				<button
 					onClick={() => dispatch(googleSignIn())}
 					className={`btn pink lighten-1 z-depth-0 ${loggingStatus}`}
 				>
+					<i className="material-icons left">add</i>
 					Google Log In
 				</button>
 			</div>

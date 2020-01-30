@@ -40,12 +40,12 @@ const SignUp = () => {
 	if (auth.uid) return <Redirect to="/" />;
 
 	return (
-		<div className="container">
+		<div className="container white product-details">
 			<div className="red-text center">
 				{authError ? <p>{authError}</p> : null}
 			</div>
 			<form onSubmit={handleSubmit}>
-				<h5 className="white-text">Sign Up</h5>
+				<h5>Sign Up</h5>
 				<div className="input-field">
 					<label htmlFor="text" data-error="Incorrect first name">
 						First Name

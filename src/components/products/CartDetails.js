@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { removeFromCart } from '../../store/actions/cartActions';
 
 const CartDetails = ({ product, sumTotal }) => {
+	const dispatch = useDispatch();
 	const [cartProduct, setCartProduct] = useState(product);
 
 	const increase = product => {
@@ -20,7 +24,7 @@ const CartDetails = ({ product, sumTotal }) => {
 	};
 
 	return (
-		<div className="row center">
+		<div className="row center hoverable">
 			<div className="col s12 m6">
 				<img
 					src={cartProduct.image_url}
@@ -49,6 +53,13 @@ const CartDetails = ({ product, sumTotal }) => {
 					</i>
 					<span>${cartProduct.total}</span>
 				</div>
+				<button
+					className="btn waves-effect waves-light"
+					onClick={() => dispatch(removeFromCart(cartProduct))}
+				>
+					<i className="material-icons left">remove</i>
+					Remove from cart
+				</button>
 			</div>
 		</div>
 	);

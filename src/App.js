@@ -28,7 +28,7 @@ function App() {
 						<Route exact path="/projects" component={Dashboard} />
 						<Route
 							exact
-							path="/projects/details"
+							path="/projects/:id"
 							component={ProjectDetails}
 						/>
 						<Route exact path="/create" component={CreateProject} />
@@ -37,7 +37,7 @@ function App() {
 						<Route exact path="/products" component={ProductList} />
 						<Route
 							exact
-							path="/products/:id"
+							path="/products/details"
 							component={ProductDetails}
 						/>
 						<Route exact path="/cart" component={Cart} />

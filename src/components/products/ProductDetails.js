@@ -6,7 +6,7 @@ const ProductDetails = props => {
 
 	if (product) {
 		return (
-			<div className="container product-details">
+			<div className="container product-details white">
 				<h4>{product.name}</h4>
 				<img src={product.image_url} alt="" />
 

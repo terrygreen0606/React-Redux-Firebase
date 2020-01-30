@@ -1,15 +1,9 @@
 export const addToCart = product => (dispatch, getState) => {
-	// Find if the current cart has product
-	// If it has, adds the product.count by 1
-	// Else, add the new product object to the array
-	const currentItems = getState().cart.cartProducts;
-	const filtered = currentItems.find(item => item.id === product.id);
+	dispatch({ type: 'ADD_TO_CART', payload: product });
+};
 
-	if (filtered) {
-		dispatch({ type: 'ADD_NUMBER' });
-	} else {
-		dispatch({ type: 'ADD_TO_CART', payload: product });
-	}
+export const removeFromCart = product => (dispatch, getState) => {
+	dispatch({ type: 'REMOVE_FROM_CART', payload: product.id });
 };
 
 export const clearCart = () => ({ type: 'CLEAR_CART' });

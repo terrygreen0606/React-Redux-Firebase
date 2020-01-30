@@ -5,10 +5,14 @@ const SignoutLinks = () => {
 	return (
 		<Fragment>
 			<li>
-				<NavLink to="/signup">Sign Up</NavLink>
+				<NavLink to="/signup" className="grey-text text-darken-3">
+					Sign Up
+				</NavLink>
 			</li>
 			<li>
-				<NavLink to="/signin">Log In</NavLink>
+				<NavLink to="/signin" className="grey-text text-darken-3">
+					Log In
+				</NavLink>
 			</li>
 		</Fragment>
 	);

@@ -50,6 +50,7 @@ const AddProduct = () => {
 	const handleSubmit = e => {
 		e.preventDefault();
 		setUploadBtn('disabled');
+		dispatch(clearAllProducts());
 		const imageName = uuid();
 
 		const uploadImage = storage.ref(`images/${imageName}`).put(uploaded);
@@ -114,7 +115,7 @@ const AddProduct = () => {
 						<i className="material-icons">filter_drama</i>
 						Click me to add a new product.
 					</div>
-					<div className="collapsible-body">
+					<div className="collapsible-body white">
 						<form
 							className="col s12"
 							onSubmit={handleSubmit}

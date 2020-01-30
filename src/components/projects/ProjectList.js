@@ -18,11 +18,14 @@ const ProjectList = props => {
 
 	// Firebase Pagination
 	// Load Firebase every time the next button is clicked
-	const limit = 5;
+	const limit = 3;
 	const dispatch = useDispatch();
 
 	const firstSnapshot = useSelector(state => state.project.firstSnapshot);
 	const lastSnapshot = useSelector(state => state.project.lastSnapshot);
+
+	// Get the next array status
+	const condition = useSelector(state => state.project.condition);
 
 	useEffect(() => {
 		dispatch(paginateProjects('first', null, limit));
@@ -81,8 +84,9 @@ const ProjectList = props => {
 	}, [deleteError]);
 	// End popup message
 
-	const projectLoading = useSelector(state => state.project.isLoading);
-	if (projectLoading) {
+	const projectsLoading = useSelector(state => state.project.isLoading);
+
+	if (projects.length === 0) {
 		return (
 			<div className="container center">
 				<div className="preloader-wrapper active">
@@ -156,7 +160,7 @@ const ProjectList = props => {
 						);
 					})}
 
-				<div className="pagination-buttons">
+				{/* <div className="pagination-buttons">
 					<button
 						className="btn waves-effect"
 						onClick={() => paginate('prev')}
@@ -170,6 +174,17 @@ const ProjectList = props => {
 					>
 						Next
 						<i className="material-icons right">chevron_right</i>
+					</button>
+				</div> */}
+				<div className="center">
+					<button
+						className={`btn waves-effect ${
+							condition === 0 || projectsLoading ? 'disabled' : ''
+						}`}
+						onClick={() => paginate('next')}
+					>
+						{condition === 0 ? 'No More' : 'Load More'}
+						<i className="material-icons right">arrow_drop_down</i>
 					</button>
 				</div>
 			</div>

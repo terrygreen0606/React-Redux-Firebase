@@ -1,17 +1,25 @@
 html {
     min-height: 100%;
+    background-position: center;
+    background: url(/img/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
-    /* background-image: url(/img/background.jpg); */
-    /* background-color: #F0F0F0; */
-    background-attachment: fixed;
-    background-size: cover;
+    font-family: 'Montserrat Alternates', sans-serif;
     box-sizing: border-box;
-    background-position: center;
+}
+
+nav {
+    background-color: transparent;
+    font-weight: bold;
+}
+
+button {
+    font-family: 'Montserrat Alternates', sans-serif;
 }
 
 form {
@@ -60,8 +68,14 @@ textarea:-webkit-autofill:active {
 }
 
 /* End autofill, autocomplete color */
+
+
 .padding-container {
     padding: 30px 0;
+}
+
+.cart .padding-row {
+    padding: 20px;
 }
 
 .search-bar {
@@ -182,6 +196,11 @@ tr {
 .cart .paypal-disabled {
     pointer-events: none;
     opacity: 0.6;
+}
+
+.product-details {
+    padding: 30px;
+    margin-top: 20px;
 }
 
 @media screen and (max-width: 1100px) {

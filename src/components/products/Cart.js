@@ -32,7 +32,7 @@ const Cart = () => {
 		return (
 			<div className="container cart padding-container">
 				<div className="row">
-					<div className="col s12 m8">
+					<div className="padding-row col s12 m7 white z-depth-2">
 						<h4>Products in Cart</h4>
 
 						{productsInCart.map(product => {
@@ -45,7 +45,7 @@ const Cart = () => {
 							);
 						})}
 					</div>
-					<div className="col s12 m4 right-aligned">
+					<div className="padding-row col s12 offset-m1 m4 center white z-depth-2">
 						<h4>Checkout</h4>
 						<h5>Total Price : ${sum}</h5>
 						<button

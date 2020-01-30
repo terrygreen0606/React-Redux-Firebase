@@ -91,7 +91,7 @@ class CreateProject extends Component {
 		if (userStatus === null) return <Redirect to="/signin" />;
 
 		return (
-			<div className="container">
+			<div className="container white">
 				<div className="red-text center">
 					{projectError ? <p>{projectError}</p> : null}
 					{isCreated ? <p>{this.state.created}</p> : null}

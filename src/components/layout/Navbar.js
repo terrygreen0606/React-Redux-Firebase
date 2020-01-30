@@ -28,7 +28,7 @@ const Navbar = props => {
 
 	return (
 		<Fragment>
-			<nav className="nav-extended blue darken-3">
+			<nav className="nav-extended">
 				<div className="container nav-wrapper">
 					<Link to="/" className="brand-logo">
 						{props.userStatus === null
@@ -46,10 +46,17 @@ const Navbar = props => {
 					</Link>
 					<ul className="right hide-on-med-and-down">
 						<li>
-							<NavLink to="/">Home</NavLink>
+							<NavLink to="/" className="grey-text text-darken-3">
+								Home
+							</NavLink>
 						</li>
 						<li>
-							<NavLink to="/products">Products</NavLink>
+							<NavLink
+								to="/products"
+								className="grey-text text-darken-3"
+							>
+								Products
+							</NavLink>
 						</li>
 						{links}
 					</ul>
@@ -57,7 +64,9 @@ const Navbar = props => {
 			</nav>
 			<ul className="sidenav" id="mobile-demo">
 				<li>
-					<NavLink to="/">Home</NavLink>
+					<NavLink to="/" className="grey-text text-darken-3">
+						Home
+					</NavLink>
 				</li>
 				{links}
 			</ul>

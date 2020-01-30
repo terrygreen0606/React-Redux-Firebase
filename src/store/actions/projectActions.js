@@ -155,9 +155,21 @@ export const paginateProjects = (navigation, snapshot, limit) => async (
 		// End point of the query data
 		const lastVisible =
 			documentSnapshots.docs[documentSnapshots.docs.length - 1];
-		dispatch({ type: 'LAST_PROJECT_SNAPSHOT', payload: lastVisible });
 
-		// item.data() just includes only data. have to include item.id to use this id in the front-end
+		const condition = await firestore
+			.collection('projects')
+			.orderBy('createdAt', 'desc')
+			.startAfter(lastVisible)
+			.limit(1)
+			.get();
+		console.log(condition.docs.length);
+		dispatch({
+			type: 'LAST_PROJECT_SNAPSHOT',
+			payload: lastVisible,
+			condition: condition.docs.length
+		});
+
+		// item.data() just includes only data. So have to include item.id to use this id in the front-end
 		documentSnapshots.docs.map(item =>
 			returnProjects.push({ ...item.data(), id: item.id })
 		);

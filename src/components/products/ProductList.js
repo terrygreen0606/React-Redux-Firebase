@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import Pagination from 'react-js-pagination';
 
 import WithUserStatus from '../hocs/WithUserStatus';
 import AddProduct from './AddProduct';
-import { addToCart } from '../../store/actions/cartActions';
+import ProductSingle from './ProductSingle';
 
 const ProductList = props => {
 	const { userStatus } = props;
-	const dispatch = useDispatch();
 
 	// Get products from firestore
 	useFirestoreConnect({
@@ -41,11 +40,6 @@ const ProductList = props => {
 
 	// Cart variables
 	const cartNumber = useSelector(state => state.cart.cartProducts.length);
-
-	// Add to Cart clicked
-	const addToMyCart = product => {
-		dispatch(addToCart({ ...product, count: 1, total: product.price }));
-	};
 
 	if (currentItems) {
 		return (
@@ -84,45 +78,10 @@ const ProductList = props => {
 					{currentItems &&
 						currentItems.map(product => {
 							return (
-								<div className="col s12 m4 l3" key={product.id}>
-									<div className="card hoverable">
-										<div className="card-image">
-											<img
-												src={product.image_url}
-												alt=""
-												className="img-height"
-											/>
-											<button
-												className="btn-floating halfway-fab waves-effect waves-light red hoverable"
-												onClick={() =>
-													addToMyCart(product)
-												}
-											>
-												<i className="material-icons">
-													add
-												</i>
-											</button>
-										</div>
-										<Link
-											to={{
-												pathname: `/products/details`,
-												state: { product }
-											}}
-										>
-											<div className="card-content grey-text text-darken-3">
-												<span className="card-title">
-													{product.name}
-												</span>
-												<span className="card-title">
-													${product.price}
-												</span>
-												<p className="truncate">
-													{product.desc}
-												</p>
-											</div>
-										</Link>
-									</div>
-								</div>
+								<ProductSingle
+									key={product.id}
+									product={product}
+								/>
 							);
 						})}
 				</div>

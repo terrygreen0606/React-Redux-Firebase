@@ -40,6 +40,19 @@ exports.projectDeleted = functions.firestore
 		return createNotification(notification);
 	});
 
+exports.projectUpdated = functions.firestore
+	.document('projects/{projectId}')
+	.onUpdate(change => {
+		// Can get access of both chanage.before and change.after
+		const project = change.after.data();
+		const notification = {
+			content: 'Updated the project',
+			user: `${project.authorFirstName} ${project.authorLastName}`,
+			time: admin.firestore.FieldValue.serverTimestamp()
+		};
+		return createNotification(notification);
+	});
+
 exports.userJoined = functions.auth.user().onCreate(user => {
 	return admin
 		.firestore()

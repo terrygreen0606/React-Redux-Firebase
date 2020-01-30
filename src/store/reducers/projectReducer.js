@@ -9,7 +9,8 @@ const initialState = {
 	firstSnapshot: null,
 	lastSnapshot: null,
 	updating: false,
-	isUpdated: false
+	isUpdated: false,
+	condition: null
 };
 
 const projectReducer = (state = initialState, action) => {
@@ -53,7 +54,10 @@ const projectReducer = (state = initialState, action) => {
 			return { ...state, isLoading: true };
 
 		case 'LOAD_PROJECTS_SUCCESS':
-			return { ...state, projects: action.payload };
+			return {
+				...state,
+				projects: [...state.projects, ...action.payload]
+			};
 
 		case 'LOAD_PROJECTS_ERROR':
 			return { ...state, projectError: action.payload };
@@ -62,7 +66,11 @@ const projectReducer = (state = initialState, action) => {
 			return { ...state, firstSnapshot: action.payload };
 
 		case 'LAST_PROJECT_SNAPSHOT':
-			return { ...state, lastSnapshot: action.payload };
+			return {
+				...state,
+				lastSnapshot: action.payload,
+				condition: action.condition
+			};
 
 		case 'LOAD_PROJECTS_END':
 			return { ...state, isLoading: false };

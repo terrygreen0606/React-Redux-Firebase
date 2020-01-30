@@ -10,13 +10,13 @@ const cartReducer = (state = initialState, action) => {
 		case 'ADD_TO_CART':
 			return { cartProducts: [action.payload, ...state.cartProducts] };
 
-		case 'ADD_NUMBER':
-			// Gave the index 0 because the newly added product goes to the first place of the array
-			// ADD_TO_CART case adds the new product at the first place of its array
-			const product = state.cartProducts[0];
-			product.count = product.count + 1;
-			product.total = product.count * product.price;
-			return state;
+		case 'REMOVE_FROM_CART':
+			return {
+				...state,
+				cartProducts: state.cartProducts.filter(
+					product => product.id !== action.payload
+				)
+			};
 
 		default:
 			return state;

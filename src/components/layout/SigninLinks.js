@@ -11,18 +11,28 @@ const SigninLinks = props => {
 	return (
 		<Fragment>
 			<li>
-				<NavLink to="/projects">Projects</NavLink>
+				<NavLink to="/projects" className="grey-text text-darken-3">
+					Projects
+				</NavLink>
 			</li>
 			<li>
-				<NavLink to="/create">New Project</NavLink>
+				<NavLink to="/create" className="grey-text text-darken-3">
+					New Project
+				</NavLink>
 			</li>
 			{props.userStatus ? (
 				<li>
-					<NavLink to="/users">Users</NavLink>
+					<NavLink to="/users" className="grey-text text-darken-3">
+						Users
+					</NavLink>
 				</li>
 			) : null}
 			<li>
-				<NavLink to="/" onClick={() => dispatch(signOut())}>
+				<NavLink
+					to="/"
+					className="grey-text text-darken-3"
+					onClick={() => dispatch(signOut())}
+				>
 					Log Out
 				</NavLink>
 			</li>

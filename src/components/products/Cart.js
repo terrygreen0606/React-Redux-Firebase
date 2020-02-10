@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import CartDetails from './CartDetails';
 import PaypalBtn from '../layout/PaypalButton';
+import StripePay from '../layout/StripePay';
 import { clearCart } from '../../store/actions/cartActions';
 
 const Cart = () => {
@@ -67,8 +68,11 @@ const Cart = () => {
 								</span>
 							</label>
 						</div>
-						<div className={`${paypalDisabled}`}>
+						<div className={`paypal-btn ${paypalDisabled}`}>
 							<PaypalBtn total={sum} />
+						</div>
+						<div className={`${paypalDisabled}`}>
+							<StripePay total={sum * 100} />
 						</div>
 					</div>
 				</div>

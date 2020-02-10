@@ -1,43 +1,43 @@
 html {
-    min-height: 100%;
-    background-position: center;
-    background: url(/img/background.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+	min-height: 100%;
+	background-position: center;
+	background: url(/img/background.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat Alternates', sans-serif;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Montserrat Alternates', sans-serif;
+	box-sizing: border-box;
 }
 
 nav {
-    background-color: transparent;
-    font-weight: bold;
+	background-color: transparent;
+	font-weight: bold;
 }
 
 button {
-    font-family: 'Montserrat Alternates', sans-serif;
+	font-family: 'Montserrat Alternates', sans-serif;
 }
 
 form {
-    padding: 10px 30px;
-    margin-top: 60px;
+	padding: 10px 30px;
+	margin-top: 60px;
 }
 
 form button,
 form h5 {
-    margin: 20px 0;
+	margin: 20px 0;
 }
 
 input[type='text']:not(.browser-default):focus:not([readonly]),
 input[type='email']:not(.browser-default):focus:not([readonly]),
 input[type='password']:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-    border-color: #ec407a;
-    box-shadow: none;
+	border-color: #ec407a;
+	box-shadow: none;
 }
 
 /* Start Input, textarea autofill autocomplete color to transparent */
@@ -49,164 +49,166 @@ textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
-    -webkit-animation: autofill 0s forwards;
-    animation: autofill 0s forwards;
+	-webkit-animation: autofill 0s forwards;
+	animation: autofill 0s forwards;
 }
 
 @keyframes autofill {
-    100% {
-        background: transparent;
-        color: black;
-    }
+	100% {
+		background: transparent;
+		color: black;
+	}
 }
 
 @-webkit-keyframes autofill {
-    100% {
-        background: transparent;
-        color: black;
-    }
+	100% {
+		background: transparent;
+		color: black;
+	}
 }
 
 /* End autofill, autocomplete color */
 
-
 .padding-container {
-    padding: 30px 0;
+	padding: 30px 0;
 }
 
 .cart .padding-row {
-    padding: 20px;
+	padding: 20px;
 }
 
 .search-bar {
-    width: 50%;
-    margin-left: auto;
+	width: 50%;
+	margin-left: auto;
 }
 
 .project-actions {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 10px;
+	display: flex;
+	justify-content: space-evenly;
+	margin-bottom: 10px;
 }
 
 .project-actions i {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .project-actions i:nth-child(1) {
-    color: rgb(31, 207, 31);
+	color: rgb(31, 207, 31);
 }
 
 .project-actions i:nth-child(2) {
-    color: rgb(238, 77, 77);
+	color: rgb(238, 77, 77);
 }
 
 .project-actions i:nth-child(1):hover {
-    color: green;
+	color: green;
 }
 
 .project-actions i:nth-child(2):hover {
-    color: red;
+	color: red;
 }
 
 .pagination {
-    text-align: center;
+	text-align: center;
 }
 
 .pagination-buttons {
-    display: flex;
-    justify-content: space-evenly;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 tr {
-    border-bottom-color: #DEDEDE;
+	border-bottom-color: #dedede;
 }
 
 /* ToolTip Classes */
 .user-list .add-tooltip {
-    background-color: #4caf50;
+	background-color: #4caf50;
 }
 
 .user-list .edit-tooltip {
-    background-color: #26a69a;
+	background-color: #26a69a;
 }
 
 .user-list .delete-tooltip {
-    background-color: #e91e63;
+	background-color: #e91e63;
 }
 
 .project-list .edit-project {
-    background-color: green;
+	background-color: green;
 }
 
 .project-list .delete-project {
-    background-color: red;
+	background-color: red;
 }
 
 /* Toast Popup Message */
 .admin-msg {
-    background-color: #4caf50;
+	background-color: #4caf50;
 }
 
 .edited-msg {
-    background-color: #26a69a;
+	background-color: #26a69a;
 }
 
 .deleted-msg {
-    background-color: #e91e63;
+	background-color: #e91e63;
 }
 
 .project-msg {
-    background-color: red;
+	background-color: red;
 }
 
 /* Product cart */
 .cart-button {
-    width: 100%;
+	width: 100%;
 }
 
 .img-height {
-    height: 300px;
+	height: 300px;
 }
 
 .cart-btn {
-    padding: 0;
-    display: flex;
-    justify-content: space-evenly;
+	padding: 0;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .cart-icon {
-    width: 20px;
+	width: 20px;
 }
 
 .one-line-align {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 15px 0;
+	display: flex;
+	justify-content: space-evenly;
+	padding: 15px 0;
 }
 
 .cursor {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .cart .pos-rel {
-    position: relative;
+	position: relative;
 }
 
 .cart .paypal-disabled {
-    pointer-events: none;
-    opacity: 0.6;
+	pointer-events: none;
+	opacity: 0.6;
+}
+
+.cart .paypal-btn {
+	padding: 10px;
 }
 
 .product-details {
-    padding: 30px;
-    margin-top: 20px;
+	padding: 30px;
+	margin-top: 20px;
 }
 
-
 @media screen and (max-width: 1100px) {
-    .sidenav li>a.btn {
-        display: flex;
-        justify-content: center;
-    }
+	.sidenav li > a.btn {
+		display: flex;
+		justify-content: center;
+	}
 }

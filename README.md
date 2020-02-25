@@ -15,4 +15,4 @@ Description
 
 Projectlist is integrated with Firebase pagination, real time updating, deleting, updating and so on.
 
-Userlist is integrated with all the admin auth functions including normal react pagination.
+Userlist is integrated with all the admin auth functions (update, delete auth users) including normal react pagination.
